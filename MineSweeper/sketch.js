@@ -82,7 +82,7 @@ function generateMap()
 
   }
   //generate bombs
-  bombcount = difficulty + int(random(3)) - 1;
+  bombcount = difficulty + int(random(11)) - 5;
   console.log("Bomben im Spiel: "+bombcount);
   for (var i = 0; i < bombcount; i++){
     while(true){
@@ -133,15 +133,7 @@ function draw() {
   fill(255);
   text("Bombs: "+bombcount+" | remaining cells to discover: "+(CellsToDiscover - bombcount), 20, 20);
 
-  if(woncounter > 0){
-    fill(random(255), random(255), random(255));
-    text("Du hast gewonnen. Yeeeey", width/2, height/2); 
-    woncounter --;
-    if(woncounter == 0){
-      dead = true; 
-    }
-    
-  }
+  
   
   if(dead)
   {
@@ -226,6 +218,17 @@ function draw() {
 
 
   drawField();
+  
+  if(woncounter > 0){
+    textSize(30);
+    fill(random(255), random(255), random(255));
+    text("Du hast gewonnen. Yeeeey", width/2, height/2); 
+    woncounter --;
+    if(woncounter == 0){
+      dead = true; 
+    }
+    
+  }
 
 }
 
