@@ -15,6 +15,7 @@ var cell_w = 100;
 var field = new Array(f_width);
 var rightclickcounter = 0;
 var dead = false;
+var woncounter = 0;
 
 var xoffset = [0, 1, 1, 1, 0, -1, -1, -1];
 var yoffset = [1, 1, 0, -1, -1, -1, 0, 1];
@@ -132,6 +133,16 @@ function draw() {
   fill(255);
   text("Bombs: "+bombcount+" | remaining cells to discover: "+(CellsToDiscover - bombcount), 20, 20);
 
+  if(woncounter > 0){
+    fill(random(255), random(255), random(255));
+    text("Du hast gewonnen. Yeeeey", width/2, height/2); 
+    woncounter --;
+    if(woncounter == 0){
+      dead = true; 
+    }
+    
+  }
+  
   if(dead)
   {
     if(y_offset < height && down)
@@ -206,7 +217,11 @@ function draw() {
       }
     }
     calcCellsToDiscover();
-
+    if(CellsToDiscover - bombcount <= 0){
+     
+      woncounter = 100;
+      
+    }
   }
 
 
