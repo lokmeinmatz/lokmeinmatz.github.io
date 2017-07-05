@@ -220,9 +220,9 @@ function draw() {
   drawField();
   
   if(woncounter > 0){
-    textSize(30);
+    textSize(60);
     fill(random(255), random(255), random(255));
-    text("Du hast gewonnen. Yeeeey", width/2, height/2); 
+    text("Du hast gewonnen. Yeeeey", width/2 - 100, height/2); 
     woncounter --;
     if(woncounter == 0){
       dead = true; 
