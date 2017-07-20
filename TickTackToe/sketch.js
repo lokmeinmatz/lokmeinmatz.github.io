@@ -132,7 +132,7 @@ function drawEndScreen(){
 
   else{
     textSize(30);
-    text("Gleichstatnd!",width/2, height/2);
+    text("Gleichstand!",width/2, height/2);
     textSize(15);
   }
 
