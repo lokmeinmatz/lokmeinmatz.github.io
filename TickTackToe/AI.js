@@ -45,112 +45,35 @@ AIaction.DESCENDING = function(firstAction, secondAction) {
   return 0;
 }
 
-function checkWinner(board){
-  //horizontal
-  for (var y = 0; y < 3; y++){
-    if(board[0][y] == board[1][y] && board[1][y] == board[2][y] && board[0][y] != 0){
-      return board[0][y];
-    }
+function getScore(gamestate){
+  switch (gamestate.state) {
+    case 1:
+      return gamestate.AImovesCount - 10;
+    case 2:
+      return 10 - gamestate.AImovesCount;
+    default:
+      return 0;
+
   }
-
-  //vertical
-  for (var x = 0; x < 3; x++){
-    if(board[x][0] == board[x][1] && board[x][1] == board[x][2] && board[x][0] != 0){
-      return board[x][0];
-    }
-  }
-
-  //diagonal 1
-  if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != 0){
-    return board[0][0];
-  }
-
-  //diagonal 1
-  if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != 0){
-    return board[0][2];
-  }
-
-  //check if field is full
-  for(var x = 0; x < 3; x++){
-    for(var y = 0; y < 3; y++){
-      if(board[x][y] == 0){
-        return 0;
-      }
-    }
-  }
-
-  return -1;
-
 }
 
 
-function miniMax(board){
 
-  function Node(data){
-    this.data = data;
-    this.parent = null;
-    this.children = [];
+
+function miniMax(gamestate){
+
+  if(gamestate.checkState() != 0){
+    return getScore(gamestate);
   }
 
-  var rootdata = {
-    board: board,
-    score: 0,
-    depth: 0,
-    currentPlayer: 2,
-  };
+  var stateScore = 0;
 
-  var gamestate = checkWinner(board);
-  if(gamestate != 0){
-    if(gamestate == -1)rootdata.score =  0;
-    else if(gamestate == 2)rootdata.score = 10;
-    else if(gamestate == 1)rootdata.score = -10;
+  if(gamestate.turn == 2){
+    stateScore = -10000;
   }
+  else stateScore = 10000;
 
-  var root = new Node(rootdata);
-
-  var current = root;
-
-  while(current){
-    //generate possible moves
-
-    var availableMoves = getPossibleMoves(current.data.board);
-
-
-  }
-
-  return;
-
-
-
-
-  scores = [];
-  moves = [];
-
-
-
-  for (var i = 0; i < availableMoves.length; i++) {
-    var move = availableMoves[i];
-    var mboard = copyBoard(oldBoard);
-    mboard[move.x][move.y] = 2;
-    scores.push(miniMax(mboard, (currentPlayer == 1)?2:1, depth));
-    moves.push(move);
-  }
-
-  if(currentPlayer == 2){
-    //max calculate
-    //get index of highest score
-    var max_index = indexOfMax(scores, false);
-    choice = moves[max_index];
-    return scores[max_index];
-  }
-  else{
-    //min calculate
-    //get index of lowest score
-    var low_index = indexOfMax(scores, true);
-    choice = moves[low_index];
-    return scores[low_index];
-  }
-
+  var availableMoves = getPossibleMoves(gamestate.board);
 
 }
 

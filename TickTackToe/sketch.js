@@ -35,6 +35,47 @@ function GameState(old){
   this.advanceTurn = function() {
     this.turn = (this.turn == CIRCLE)? CROSS : CIRCLE;
   }
+
+  this.checkState = function () {
+    for (var y = 0; y < 3; y++){
+      if(board[0][y] == board[1][y] && board[1][y] == board[2][y] && board[0][y] != 0){
+        this.state = board[0][y];
+        return board[0][y];
+      }
+    }
+
+    //vertical
+    for (var x = 0; x < 3; x++){
+      if(board[x][0] == board[x][1] && board[x][1] == board[x][2] && board[x][0] != 0){
+        this.state = board[x][0];
+        return board[x][0];
+      }
+    }
+
+    //diagonal 1
+    if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != 0){
+      this.state = board[0][0];
+      return board[0][0];
+    }
+
+    //diagonal 1
+    if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != 0){
+      this.state = board[0][2];
+      return board[0][2];
+    }
+
+    //check if field is full
+    for(var x = 0; x < 3; x++){
+      for(var y = 0; y < 3; y++){
+        if(board[x][y] == 0){
+          this.state = 0;
+          return 0;
+        }
+      }
+    }
+    this.state = -1;
+    return -1;
+  }
 }
 
 function setup() {
@@ -78,7 +119,6 @@ function draw() {
 }
 
 var clickcounter = 0;
-var winner = 0;
 
 function updateInputs(){
   clickcounter++;
@@ -97,7 +137,7 @@ function updateInputs(){
       currentGameState.advanceTurn();
 
       //check winner
-      currentGameState.state = checkWinner(currentGameState.board);
+      currentGameState.checkState();
     }
   }
   else{
@@ -120,7 +160,7 @@ function updateInputs(){
            currentGameState.advanceTurn();
 
            //check winner
-           currentGameState.state = checkWinner(currentGameState.board);
+           currentGameState.checkState();
          }
       }
     }
