@@ -260,7 +260,7 @@ function updateInputsMenu() {
   menuData.clickTimer--;
   if(touches.length > 0 && menuData.clickTimer < 0){
     menuData.clickTimer = 10;
-    if(touches[0].y >= 200 && touches[0].y <= 300){
+    if(touches[0].y >= height/5 && touches[0].y <= height/5 + 100){
       //inside player area
       if(touches[0].x < width/2)currentGameState.turn = CIRCLE;
       else {
@@ -268,10 +268,10 @@ function updateInputsMenu() {
       }
 
     }
-    else if(touches[0].y >= 450 && touches[0].y <= 490 && touches[0].x >= width/2 - 20 && touches[0].x <= width/2 + 20)playAgainstAI = !playAgainstAI;
+    else if(touches[0].y >= height/1.7 && touches[0].y <= height/1.7 + 40 && touches[0].x >= width/2 - 20 && touches[0].x <= width/2 + 20)playAgainstAI = !playAgainstAI;
     else if(touches[0].y >= height - 90 && touches[0].y <= height - 30 && touches[0].x >= width/2 - 70 && touches[0].x <= width/2 + 70)STATE = PLAYING
   }
-  if(mouseY >= 450 && mouseY <= 490 && mouseX >= width/2 - 20 && mouseX <= width/2 + 20)menuData.mouseHoverAI = true;
+  if(mouseY >= height/1.7 && mouseY <= height/1.7 + 40 && mouseX >= width/2 - 20 && mouseX <= width/2 + 20)menuData.mouseHoverAI = true;
   else {
     menuData.mouseHoverAI = false;
   }
@@ -287,24 +287,24 @@ textAlign(CENTER);
   textSize((width + height) / 100);
   var s = "Do you want Cross or Circle to start?"
   fill(50);
-  text(s, width/2, 100);
+  text(s, width/2, height/10);
 
   //draw starting or ai
   noStroke();
   fill(200);
-  rect(0, 200, width, 100);
+  rect(0,  height/5, width, 100);
 
   menuData.targetOffsetX = (currentGameState.turn == CIRCLE)? 0 : width/2;
   menuData.currentOffsetX = lerp(menuData.currentOffsetX, menuData.targetOffsetX, 0.1);
   fill(250);
-  rect(menuData.currentOffsetX, 200, width/2, 100);
+  rect(menuData.currentOffsetX, height/5, width/2, 100);
   noFill();
   stroke(84, 84, 84);
-  ellipse(width/4, 250, 70);
+  ellipse(width/4, height/5 + 50, 70);
 
 
   var startX = width / 4 * 3 - 50,
-      startY = 200,
+      startY = height/5,
       cellSize = 100;
   line(startX + cellSize*0.2, startY + cellSize* 0.2, startX + cellSize*0.8, startY + cellSize*0.8);
   line(startX + cellSize*0.8, startY + cellSize* 0.2, startX + cellSize*0.2, startY + cellSize*0.8);
@@ -313,19 +313,19 @@ textAlign(CENTER);
   //ai checkbox
   noStroke();
   fill(50);
-  text("Play against AI (AI will be Cross) << Not working yet", width/2, 400);
+  text("Play against AI (AI will be Cross) << Not working yet", width/2, height/2);
 
   stroke(50);
   strokeWeight(1);
   if(menuData.mouseHoverAI)strokeWeight(4);
   noFill();
-  rect(width/2 - 20, 450, 40, 40);
+  rect(width/2 - 20, height/1.7, 40, 40);
 
   strokeWeight(4);
   if(playAgainstAI){
     //draw check
-    line(width/2 - 15, 470, width/2, 485);
-    line(width/2, 485, width/2 + 25, 455);
+    line(width/2 - 15, height/1.7 + 20, width/2, height/1.7 + 35);
+    line(width/2, height/1.7 + 35, width/2 + 25, height/1.7 + 5);
   }
 
   strokeWeight(1);
