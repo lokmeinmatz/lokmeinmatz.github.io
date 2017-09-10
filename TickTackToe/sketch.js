@@ -294,7 +294,7 @@ textAlign(CENTER);
   fill(200);
   rect(0, 200, width, 100);
 
-  menuData.targetOffsetX = (currentPlayer == CIRCLE)? 0 : width/2;
+  menuData.targetOffsetX = (currentGameState.turn == CIRCLE)? 0 : width/2;
   menuData.currentOffsetX = lerp(menuData.currentOffsetX, menuData.targetOffsetX, 0.1);
   fill(250);
   rect(menuData.currentOffsetX, 200, width/2, 100);
