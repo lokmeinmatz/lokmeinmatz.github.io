@@ -284,7 +284,7 @@ function updateInputsMenu() {
 
 function drawMenu() {
 textAlign(CENTER);
-  textSize(width/50);
+  textSize((width + height) / 100);
   var s = "Do you want Cross or Circle to start?"
   fill(50);
   text(s, width/2, 100);
@@ -300,10 +300,10 @@ textAlign(CENTER);
   rect(menuData.currentOffsetX, 200, width/2, 100);
   noFill();
   stroke(84, 84, 84);
-  ellipse(width/4 + 50, 250, 70);
+  ellipse(width/4, 250, 70);
 
 
-  var startX = width / 4 * 3,
+  var startX = width / 4 * 3 - 50,
       startY = 200,
       cellSize = 100;
   line(startX + cellSize*0.2, startY + cellSize* 0.2, startX + cellSize*0.8, startY + cellSize*0.8);
