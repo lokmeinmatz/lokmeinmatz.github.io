@@ -284,7 +284,7 @@ function updateInputsMenu() {
 
 function drawMenu() {
 textAlign(CENTER);
-  textSize(30);
+  textSize(width/50);
   var s = "Do you want Cross or Circle to start?"
   fill(50);
   text(s, width/2, 100);
