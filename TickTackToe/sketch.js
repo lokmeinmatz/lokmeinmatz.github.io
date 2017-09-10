@@ -297,7 +297,7 @@ textAlign(CENTER);
   //ai checkbox
   noStroke();
   fill(50);
-  text("Play against AI (AI will be Cross)", width/2, 400);
+  text("Play against AI (AI will be Cross) << Not working yet", width/2, 400);
 
   stroke(50);
   strokeWeight(1);
