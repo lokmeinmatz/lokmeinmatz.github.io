@@ -13,7 +13,7 @@ var linelength = 0;
 
 
 var playAgainstAI = false;
-var currentGameState = new gameState();
+var currentGameState = new GameState();
 
 function GameState(old){
   this.turn = CIRCLE;
@@ -254,7 +254,7 @@ var menuData = {
   mouseHoverAI: false,
   clickTimer: 10,
   mouseHoverPlay: false,
-}
+};
 
 function updateInputsMenu() {
   menuData.clickTimer--;
