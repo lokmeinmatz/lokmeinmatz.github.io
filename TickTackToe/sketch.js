@@ -19,7 +19,7 @@ function GameState(old){
   this.turn = CIRCLE;
   this.AImovesCount = 0;
   this.state = 0;
-  this.board = = [
+  this.board = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0]
