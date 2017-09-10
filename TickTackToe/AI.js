@@ -1,20 +1,39 @@
 const DIFFICULTY_EASY = 4123,
       DIFFICULTY_HARD = 4131;
 
-function getAImove(board, difficulty){
+function getAImove(state, difficulty){
   if(difficulty == DIFFICULTY_EASY){
     //return random free possible location
-    var moves = getPossibleMoves(board);
+    var moves = getPossibleMoves(state.board);
     console.log(moves);
     loadingTime = 0;
     return moves[floor(random(moves.length))];
   }
   else if(difficulty == DIFFICULTY_HARD){
-    var choice = miniMax(board, 2, 0);
+    var choice = takeBestMove(state);
     loadingTime = 0;
     console.log("finished");
     return choice;
   }
+}
+
+function takeBestMove(currentGameState) {
+  var available = getPossibleMoves(currentGameState.board);
+
+  var availableActions = available.map(function(pos){
+    var action = new AIaction(pos);
+
+    var next = action.applyTo(currentGameState);
+
+    action.miniMaxValue = miniMax(next);
+    return action;
+  });
+
+  availableActions.sort(AIaction.DESCENDING);
+
+  var chosen = availableActions[0];
+  return chosen.move;
+
 }
 
 function AIaction(move){
@@ -75,6 +94,25 @@ function miniMax(gamestate){
 
   var availableMoves = getPossibleMoves(gamestate.board);
 
+  var availableNextStates = availableMoves.map(function (move) {
+    var action = new AIaction(move);
+    return action.applyTo(gamestate);
+  });
+
+
+  availableNextStates.forEach(function (nextState) {
+    var nextScore = miniMax(nextState);
+
+    if(gamestate.turn == 2){
+      //maximize
+      if(nextScore > stateScore)stateScore = nextScore;
+    }
+    else {
+      //minimize
+      if(nextScore < stateScore)stateScore = nextScore;
+    }
+  });
+  return stateScore;
 }
 
 function indexOfMax(arr, min) {

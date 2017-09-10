@@ -13,6 +13,7 @@ var linelength = 0;
 
 
 var playAgainstAI = false;
+var AIdifficulty = DIFFICULTY_EASY;
 var currentGameState = new GameState();
 
 function GameState(old){
@@ -38,36 +39,36 @@ function GameState(old){
 
   this.checkState = function () {
     for (var y = 0; y < 3; y++){
-      if(board[0][y] == board[1][y] && board[1][y] == board[2][y] && board[0][y] != 0){
-        this.state = board[0][y];
-        return board[0][y];
+      if(this.board[0][y] == this.board[1][y] && this.board[1][y] == this.board[2][y] && this.board[0][y] != 0){
+        this.state = this.board[0][y];
+        return this.board[0][y];
       }
     }
 
     //vertical
     for (var x = 0; x < 3; x++){
-      if(board[x][0] == board[x][1] && board[x][1] == board[x][2] && board[x][0] != 0){
-        this.state = board[x][0];
-        return board[x][0];
+      if(this.board[x][0] == this.board[x][1] && this.board[x][1] == this.board[x][2] && this.board[x][0] != 0){
+        this.state = this.board[x][0];
+        return this.board[x][0];
       }
     }
 
     //diagonal 1
-    if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != 0){
-      this.state = board[0][0];
-      return board[0][0];
+    if(this.board[0][0] == this.board[1][1] && this.board[1][1] == this.board[2][2] && this.board[0][0] != 0){
+      this.state = this.board[0][0];
+      return this.board[0][0];
     }
 
     //diagonal 1
-    if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != 0){
-      this.state = board[0][2];
-      return board[0][2];
+    if(this.board[0][2] == this.board[1][1] && this.board[1][1] == this.board[2][0] && this.board[0][2] != 0){
+      this.state = this.board[0][2];
+      return this.board[0][2];
     }
 
     //check if field is full
     for(var x = 0; x < 3; x++){
       for(var y = 0; y < 3; y++){
-        if(board[x][y] == 0){
+        if(this.board[x][y] == 0){
           this.state = 0;
           return 0;
         }
@@ -129,7 +130,7 @@ function updateInputs(){
   if(playAgainstAI && currentGameState.turn == CROSS){
 
     //do ai move
-    var move = getAImove(currentGameState, DIFFICULTY_HARD);
+    var move = getAImove(currentGameState, AIdifficulty);
     console.log(move);
     if(currentGameState.board[move.x][move.y] == 0){
       currentGameState.board[move.x][move.y] = currentGameState.turn;
@@ -294,24 +295,44 @@ var menuData = {
   mouseHoverAI: false,
   clickTimer: 10,
   mouseHoverPlay: false,
+
+  targetDifficultyX: 0,
+  currentDifficultyX: 0,
+
+  startPlayerY: 0,
+  playAgainstAIY: 0,
+  difficultyY: 0,
 };
 
 function updateInputsMenu() {
+
+  menuData.startPlayerY = height/5;
+  menuData.playAgainstAIY = height/2;
+  menuData.difficultyY = height/1.5;
+
   menuData.clickTimer--;
   if(touches.length > 0 && menuData.clickTimer < 0){
     menuData.clickTimer = 10;
-    if(touches[0].y >= height/5 && touches[0].y <= height/5 + 100){
-      //inside player area
+    if(touches[0].y >= menuData.startPlayerY && touches[0].y <= menuData.startPlayerY + 100){
+      //inside startplayer area
       if(touches[0].x < width/2)currentGameState.turn = CIRCLE;
       else {
         currentGameState.turn = CROSS;
       }
 
     }
-    else if(touches[0].y >= height/1.7 && touches[0].y <= height/1.7 + 40 && touches[0].x >= width/2 - 20 && touches[0].x <= width/2 + 20)playAgainstAI = !playAgainstAI;
+    else if(touches[0].y >= menuData.playAgainstAIY && touches[0].y <= menuData.playAgainstAIY + 40 && touches[0].x >= width/2 - 20 && touches[0].x <= width/2 + 20)playAgainstAI = !playAgainstAI;
     else if(touches[0].y >= height - 90 && touches[0].y <= height - 30 && touches[0].x >= width/2 - 70 && touches[0].x <= width/2 + 70)STATE = PLAYING
+    else if(touches[0].y >= menuData.difficultyY && touches[0].y <= menuData.difficultyY + 100){
+      //inside difficulty area
+      if(touches[0].x < width/2)AIdifficulty = DIFFICULTY_EASY;
+      else {
+        AIdifficulty = DIFFICULTY_HARD;
+      }
+    }
+
   }
-  if(mouseY >= height/1.7 && mouseY <= height/1.7 + 40 && mouseX >= width/2 - 20 && mouseX <= width/2 + 20)menuData.mouseHoverAI = true;
+  if(mouseY >= menuData.playAgainstAIY && mouseY <= menuData.playAgainstAIY + 40 && mouseX >= width/2 - 20 && mouseX <= width/2 + 20)menuData.mouseHoverAI = true;
   else {
     menuData.mouseHoverAI = false;
   }
@@ -331,20 +352,19 @@ textAlign(CENTER);
 
   //draw starting or ai
   noStroke();
-  fill(200);
-  rect(0,  height/5, width, 100);
+
 
   menuData.targetOffsetX = (currentGameState.turn == CIRCLE)? 0 : width/2;
   menuData.currentOffsetX = lerp(menuData.currentOffsetX, menuData.targetOffsetX, 0.1);
   fill(250);
-  rect(menuData.currentOffsetX, height/5, width/2, 100);
+  rect(menuData.currentOffsetX, menuData.startPlayerY, width/2, 100);
   noFill();
   stroke(84, 84, 84);
-  ellipse(width/4, height/5 + 50, 70);
+  ellipse(width/4, menuData.startPlayerY + 50, 70);
 
 
   var startX = width / 4 * 3 - 50,
-      startY = height/5,
+      startY = menuData.startPlayerY,
       cellSize = 100;
   line(startX + cellSize*0.2, startY + cellSize* 0.2, startX + cellSize*0.8, startY + cellSize*0.8);
   line(startX + cellSize*0.8, startY + cellSize* 0.2, startX + cellSize*0.2, startY + cellSize*0.8);
@@ -353,25 +373,32 @@ textAlign(CENTER);
   //ai checkbox
   noStroke();
   fill(50);
-  text("Play against AI (AI will be Cross) << Not working yet", width/2, height/2);
+  text("Play against AI (AI will be Cross) << Not working yet", width/2, height/2 - 20);
 
   stroke(50);
   strokeWeight(1);
   if(menuData.mouseHoverAI)strokeWeight(4);
   noFill();
-  rect(width/2 - 20, height/1.7, 40, 40);
+  rect(width/2 - 20, menuData.playAgainstAIY, 40, 40);
 
   strokeWeight(4);
   if(playAgainstAI){
     //draw check
-    line(width/2 - 15, height/1.7 + 20, width/2, height/1.7 + 35);
-    line(width/2, height/1.7 + 35, width/2 + 25, height/1.7 + 5);
+    line(width/2 - 15, menuData.playAgainstAIY + 20, width/2, menuData.playAgainstAIY + 35);
+    line(width/2, menuData.playAgainstAIY + 35, width/2 + 25, menuData.playAgainstAIY + 5);
   }
 
   strokeWeight(1);
   noStroke();
 
-
+  //difficulty
+  menuData.targetDifficultyX = (AIdifficulty == DIFFICULTY_EASY)? 0 : width/2;
+  menuData.currentDifficultyX = lerp(menuData.currentDifficultyX, menuData.targetDifficultyX, 0.1);
+  fill(250);
+  rect(menuData.currentDifficultyX, menuData.difficultyY, width/2, 100);
+  fill(50);
+  text("EASY", width/4, menuData.difficultyY + 55);
+  text("HARD", width/4 * 3, menuData.difficultyY + 55);
   //play button
   noStroke();
   if(menuData.mouseHoverPlay)stroke(50);
