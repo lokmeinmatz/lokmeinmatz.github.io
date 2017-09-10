@@ -10,14 +10,32 @@ var STATE = MENU;
 
 var linelength = 0;
 
-var data = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0]
-];
+
 
 var playAgainstAI = false;
+var currentGameState = new gameState();
 
+function GameState(old){
+  this.turn = CIRCLE;
+  this.AImovesCount = 0;
+  this.state = 0;
+  this.board = = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+  ];
+
+  if(old !== undefined){
+    this.board = copyBoard(old.board);
+    this.AImovesCount = old.AImovesCount;
+    this.state = old.state;
+    this.turn = old.turn;
+  }
+
+  this.advanceTurn = function() {
+    this.turn = (this.turn == CIRCLE)? CROSS : CIRCLE;
+  }
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight - 1);
@@ -60,7 +78,6 @@ function draw() {
 }
 
 var clickcounter = 0;
-var currentPlayer = CIRCLE;
 var winner = 0;
 
 function updateInputs(){
@@ -69,18 +86,18 @@ function updateInputs(){
   var startY = (height - linelength)/2;
   var cellSize = linelength/3;
 
-  if(playAgainstAI && currentPlayer == CROSS){
+  if(playAgainstAI && currentGameState.turn == CROSS){
 
     //do ai move
-    var move = getAImove(data, DIFFICULTY_HARD);
+    var move = getAImove(currentGameState, DIFFICULTY_HARD);
     console.log(move);
-    if(data[move.x][move.y] == 0){
-      data[move.x][move.y] = currentPlayer;
+    if(currentGameState.board[move.x][move.y] == 0){
+      currentGameState.board[move.x][move.y] = currentGameState.turn;
 
-      currentPlayer = CIRCLE;
+      currentGameState.advanceTurn();
 
       //check winner
-      winner = checkWinner(data);
+      currentGameState.state = checkWinner(currentGameState.board);
     }
   }
   else{
@@ -97,13 +114,13 @@ function updateInputs(){
        }
        else{
 
-         if(data[pressed_cell_x][pressed_cell_y] == 0){
-           data[pressed_cell_x][pressed_cell_y] = currentPlayer;
+         if(currentGameState.board[pressed_cell_x][pressed_cell_y] == 0){
+           currentGameState.board[pressed_cell_x][pressed_cell_y] = currentGameState.turn;
 
-           currentPlayer = (currentPlayer == CIRCLE)? CROSS : CIRCLE;
+           currentGameState.advanceTurn();
 
            //check winner
-           winner = checkWinner(data);
+           currentGameState.state = checkWinner(currentGameState.board);
          }
       }
     }
@@ -119,8 +136,7 @@ function updateInputsEndScreen(){
 
       for(var x = 0; x < 3; x++){
         for(var y = 0; y < 3; y++){
-          data[x][y] = 0;
-          winner = 0;
+          currentGameState = new GameState();
           STATE = MENU;
         }
       }
@@ -135,18 +151,18 @@ function drawEndScreen(){
   noStroke();
   textAlign(CENTER);
 
-  if(winner > 0){
+  if(currentGameState.state > 0){
     text("Gratulation!", width/2, 70);
     text("Player", width/2, 150);
 
     //draw winner
 
     noFill();
-    if(winner == CIRCLE){
+    if(currentGameState.state == CIRCLE){
       stroke(242, 235, 211);
       ellipse(width/2, 200 + cellSize/2, cellSize*0.7);
     }
-    else if(winner == CROSS){
+    else if(currentGameState.state == CROSS){
       stroke(84, 84, 84);
       var tempWidth = width/2 + cellSize/2;
       line(tempWidth - cellSize*0.2, 200 + cellSize* 0.2, tempWidth - cellSize*0.8, 200 + cellSize*0.8);
@@ -200,7 +216,7 @@ function drawMap(){
   noFill();
   for (var x = 0; x < 3; x++){
     for (var y = 0; y < 3; y++){
-      drawCell(x, y, data[x][y], linelength/3);
+      drawCell(x, y, currentGameState.board[x][y], linelength/3);
     }
   }
 }
@@ -246,9 +262,9 @@ function updateInputsMenu() {
     menuData.clickTimer = 10;
     if(touches[0].y >= 200 && touches[0].y <= 300){
       //inside player area
-      if(touches[0].x < width/2)currentPlayer = CIRCLE;
+      if(touches[0].x < width/2)currentGameState.turn = CIRCLE;
       else {
-        currentPlayer = CROSS;
+        currentGameState.turn = CROSS;
       }
 
     }

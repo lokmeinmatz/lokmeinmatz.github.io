@@ -17,6 +17,34 @@ function getAImove(board, difficulty){
   }
 }
 
+function AIaction(move){
+  this.move = move;
+
+  this.miniMaxValue = 0;
+
+  this.applyTo = function(state) {
+    var next = new GameState(state);
+    next.board[this.move.x][this.move.y] = state.turn;
+
+    if(state.turn == 2)next.AImovesCount++;
+    next.advanceTurn();
+
+    return next;
+  }
+}
+
+AIaction.ASCENDING = function(firstAction, secondAction) {
+  if(firstAction.miniMaxValue < secondAction.miniMaxValue)return -1;
+  else if(firstAction.miniMaxValue > secondAction.miniMaxValue)return 1;
+  return 0;
+}
+
+AIaction.DESCENDING = function(firstAction, secondAction) {
+  if(firstAction.miniMaxValue > secondAction.miniMaxValue)return -1;
+  else if(firstAction.miniMaxValue < secondAction.miniMaxValue)return 1;
+  return 0;
+}
+
 function checkWinner(board){
   //horizontal
   for (var y = 0; y < 3; y++){
@@ -84,7 +112,7 @@ function miniMax(board){
 
   while(current){
     //generate possible moves
-    
+
     var availableMoves = getPossibleMoves(current.data.board);
 
 
