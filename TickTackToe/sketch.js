@@ -71,7 +71,7 @@ function draw() {
     drawMenu();
   }
 
-  if(winner != 0){
+  if(currentGameState.state != 0){
     STATE = ENDSCREEN;
   }
 
