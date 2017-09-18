@@ -1,12 +1,46 @@
 var game = null;
 
-function init() {
-  game = new Phaser.Game(192*2, 108*2, Phaser.CANVAS, "", null, false, false);
+var World = {
+  headerSprite: null,
+  leftSprites: null,
+  rightSpries: null,
+  backSprite: null,
+  pos: 0,
+  speed: 0,
 
-  game.state.add("BootState", BootState);
-  game.state.add("LoadingScreen", LoadingScreen);
-  game.state.add("MainGame", MainGame);
-  game.state.start("BootState");
+  states: {MENU: 1, INTRO: 2, PLAYING: 3},
+  state: 1,
+
+  init: function () {
+    this.headerSprite = game.add.sprite(0, 70, "boerse");
+  },
+
+  update: function () {
+
+    if(this.state == this.states.INTRO){
+      if(this.pos < 90){
+        this.speed = (92 - this.pos) * 0.02;
+
+      }
+      else{
+        this.state = this.states.PLAYING;
+        console.log("Switched Worldstate to PLAYING");
+        this.speed = 0;
+      }
+    }
+
+
+    this.pos += this.speed;
+
+    if(this.headerSprite != null){
+      this.headerSprite.y = 70 - this.pos;
+
+    }
+
+    if(Dachs.fixed){
+      Dachs.sprite.y -= this.speed;
+    }
+  },
 };
 
 var DAXboard = {
@@ -22,12 +56,12 @@ var DAXboard = {
     x: 10,
     y: 10,
     width: 80,
-    height: 60,
+    height: 50,
     counter: 0,
     init: function (DAXctx) {
       //fill left side
       DAXctx.fillStyle = this.BG_COLOR;
-      DAXctx.fillRect(1, 1, this.width + 19, 78);
+      DAXctx.fillRect(1, 1, this.width + 19, 68);
 
       for(let i = 0; i < this.height/2; i++){
         this.update(DAXctx, true);
@@ -40,7 +74,7 @@ var DAXboard = {
       let imageData = DAXctx.getImageData(this.x, this.y + 2, this.width, this.height);
 
       //fill left side
-      DAXctx.fillRect(1, 1, this.width + 19, 78);
+      DAXctx.fillRect(1, 1, this.width + 19, 68);
 
       DAXctx.putImageData(imageData, this.x, this.y);
 
@@ -66,21 +100,31 @@ var DAXboard = {
     x: 100,
     y: 10,
     width: 140,
-    height: 60,
+    height: 50,
     values: [],
-    lowestValue: 12500,
-    highestValue: 12600,
+    lowestValue: 1000000,
+    highestValue: -1000000,
     update: function (DAXctx, newValue) {
 
       //add new data to values, delete last if necessary
       this.values.push(newValue);
       if(this.values.length > 35)this.values.splice(0, 1);
 
-      if(newValue < this.lowestValue)this.lowestValue = newValue;
-      else if(newValue > this.highestValue)this.highestValue = newValue;
+
+
+      //update lowestValue, highestValue
+      this.lowestValue = 1000000;
+      this.highestValue = -1000000;
+      this.values.forEach(function (entry) {
+
+        if(entry > DAXboard.chart.highestValue)DAXboard.chart.highestValue = entry;
+        if(entry < DAXboard.chart.lowestValue)DAXboard.chart.lowestValue = entry;
+
+      });
+
       //overdraw area
       DAXctx.fillStyle = DAXboard.BG_COLOR;
-      DAXctx.fillRect(80, 1, game.width - 81, 78);
+      DAXctx.fillRect(80, 1, game.width - 81, 68);
 
       DAXctx.strokeStyle = "rgb(255, 255, 255)";
       DAXctx.lineWidth = 1;
@@ -90,7 +134,7 @@ var DAXboard = {
       game.math.mapLinear(this.values[this.values.length - 1], this.lowestValue, this.highestValue, this.y + this.height, this.y);
       DAXctx.moveTo(this.x + this.width, yStart);
       let xOffset = (35 - this.values.length) * 4;
-      console.log(game.time.fps);
+
       for(let i = this.values.length - 1; i > 0; i--){
         let yEnd = game.math.mapLinear(this.values[i - 1], this.lowestValue, this.highestValue, this.y + this.height, this.y);
         DAXctx.lineTo(this.x + (this.width/35) * i + xOffset, yEnd);
@@ -99,9 +143,10 @@ var DAXboard = {
 
       //draw arrow
       let sx = 0,
-          sy = 0;
+          sy = 0,
+          change = 0;
       if(this.values.length > 1){
-        let change = this.values[this.values.length - 1] - this.values[this.values.length - 2];
+        change = this.values[this.values.length - 1] - this.values[this.values.length - 2];
         if(change > 10 || change < -10){
           sx = 32;
           sy = (change > 0)? 0 : 32;
@@ -109,17 +154,82 @@ var DAXboard = {
       }
 
       DAXctx.drawImage(this.arrowsTexture.data, sx, sy, 32, 32, this.x + this.width + 20, 20, 32, 32);
+      let changePerc = (change / this.values[this.values.length - 1]) * 100;
+      DAXctx.fillStyle = DAXctx.strokeStyle;
+      DAXctx.fillText(changePerc.toFixed(2)+"%", this.x + this.width + 70, 20);
+      DAXctx.fillText(DAXboard.DAXniveau, this.x + this.width + 70, 35);
     },
   },
 };
 
+var Dachs = {
+  sprite: null,
+  states: {
+    IDLE: 0,
+    WALKING: 1,
+    FALLING: 2,
+    CUTTING: 3,
+    ELECTRO: 4,
+    DEAD: 5,
+  },
+  state: 0,
+  fixed: true,
+  init: function () {
+    this.sprite = game.add.sprite(100, 200, "dachs", "dachs base");
+
+    //create the animation for walking using the frame names we want from max.json
+    this.sprite.animations.add('idle', [
+        "dachs base",
+        "dachs idle 2",
+    ], 1, true, false);
+
+    this.sprite.animations.add('walk', [
+        "dachs base",
+        "dachs step",
+        "dachs step 2",
+    ], 3, true, false);
+
+    this.sprite.animations.add('electro', [
+        "dachs electro 1",
+        "dachs electro 2",
+        "dachs electro 3",
+    ], 2, true, false);
+
+  },
+  update: function () {
+    switch (this.state) {
+      case this.states.IDLE:
+        this.sprite.animations.play("idle");
+        break;
+      case this.states.WALKING:
+        this.sprite.animations.play("walk");
+        break;
+      case this.states.ELECTRO:
+        this.sprite.animations.play("electro");
+        break;
+      default:
+        this.sprite.animations.play("idle");
+    }
+
+  },
+};
+
 var MainGame = {
+  button: null,
   init: function () {
 
   },
   create: function () {
     console.log("Loading maingame");
-    DAXboard.DAXcanvas =  new Phaser.BitmapData(game, "DAXcanvas", game.width, 80)
+
+    console.log("Init World");
+    World.init();
+
+    console.log("Init Dachs");
+    Dachs.init();
+
+    console.log("Init DAXboard");
+    DAXboard.DAXcanvas =  new Phaser.BitmapData(game, "DAXcanvas", game.width, 70)
     DAXboard.DAXimage = this.add.image(0, 0, DAXboard.DAXcanvas);
     DAXboard.init();
     DAXboard.update();
@@ -127,6 +237,16 @@ var MainGame = {
 
     //input
     this.arrowKeys = game.input.keyboard.createCursorKeys();
+
+    //MENU
+    this.button = game.add.button(game.width/2, game.height/2, "button play", this.startGame);
+  },
+
+  startGame: function () {
+    World.pos = 0;
+    World.state = World.states.INTRO;
+    console.log("restarting game");
+    MainGame.button.visible = false;
   },
 
   update: function () {
@@ -134,9 +254,10 @@ var MainGame = {
     if(this.arrowKeys.up.isDown)DAXboard.DAXniveau++;
     if(this.arrowKeys.down.isDown)DAXboard.DAXniveau--;
 
-
-  }
-}
+    Dachs.update();
+    World.update();
+  },
+};
 
 
 DAXboard.update = function() {
@@ -150,3 +271,12 @@ DAXboard.update = function() {
   DAXboard.leftText.update(DAXctx);
   DAXboard.chart.update(DAXctx, DAXboard.DAXniveau);
 }
+
+function init() {
+  game = new Phaser.Game(192*2, 108*2, Phaser.CANVAS, "", null, false, false);
+
+  game.state.add("BootState", BootState);
+  game.state.add("LoadingScreen", LoadingScreen);
+  game.state.add("MainGame", MainGame);
+  game.state.start("BootState");
+};
