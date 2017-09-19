@@ -14,6 +14,8 @@ var LoadingScreen = {
     this.load.image("boerse", "imgs/boerse.png");
     this.load.image("button play", "imgs/bttn play.png");
 
+    this.load.image("border 1", "imgs/border_1.png");
+
     //---------------------------------
 
 

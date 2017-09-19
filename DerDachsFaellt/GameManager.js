@@ -1,9 +1,11 @@
 var game = null;
 
+
+
 var World = {
   headerSprite: null,
-  leftSprites: null,
-  rightSpries: null,
+  leftSprites: [],
+  rightSprites: [],
   backSprite: null,
   pos: 0,
   speed: 0,
@@ -12,7 +14,17 @@ var World = {
   state: 1,
 
   init: function () {
-    this.headerSprite = game.add.sprite(0, 70, "boerse");
+    this.headerSprite = game.add.image(0, 70, "boerse");
+    MainGame.Boerse_group.add(this.headerSprite);
+    let leftSprite = game.add.image(0, 200, "border 1");
+    this.leftSprites.push(leftSprite);
+    MainGame.Sides_group.add(leftSprite);
+
+    let rightSprite = game.add.image(game.width - 30, 200, "border 1");
+    rightSprite.anchor.setTo(1, .5);
+    rightSprite.scale.x = -1;
+    this.rightSprites.push(rightSprite);
+    MainGame.Sides_group.add(rightSprite);
   },
 
   update: function () {
@@ -35,6 +47,39 @@ var World = {
     if(this.headerSprite != null){
       this.headerSprite.y = 70 - this.pos;
 
+    }
+
+    let removeSprite = -1;
+
+    for(let i = 0; i < this.leftSprites.length; i++){
+      let sprite = this.leftSprites[i];
+      sprite.y -= this.speed;
+
+      if(sprite.y < -100){
+        removeSprite = i;
+      }
+    }
+    if(removeSprite > -1){
+      this.leftSprites[removeSprite].destroy();
+      this.leftSprites.splice(removeSprite, 1);
+      //add new texture
+    }
+
+    removeSprite = -1;
+    //reset for right sprites
+
+    for(let i = 0; i < this.rightSprites.length; i++){
+      let sprite = this.rightSprites[i];
+      sprite.y -= this.speed;
+
+      if(sprite.y < -100){
+        removeSprite = i;
+      }
+    }
+    if(removeSprite > -1){
+      this.rightSprites[removeSprite].destroy();
+      this.rightSprites.splice(removeSprite, 1);
+      //add new texture
     }
 
     if(Dachs.fixed){
@@ -176,7 +221,7 @@ var Dachs = {
   fixed: true,
   init: function () {
     this.sprite = game.add.sprite(100, 200, "dachs", "dachs base");
-
+    MainGame.Dachs_group.add(this.sprite);
     //create the animation for walking using the frame names we want from max.json
     this.sprite.animations.add('idle', [
         "dachs base",
@@ -222,6 +267,15 @@ var MainGame = {
   create: function () {
     console.log("Loading maingame");
 
+
+    console.log("Init layers");
+    this.BG_group = game.add.group();
+    this.Sides_group = game.add.group();
+    this.Boerse_group = game.add.group();
+    this.Dachs_group = game.add.group();
+    this.Cable_group = game.add.group();
+    this.UI_group = game.add.group();
+
     console.log("Init World");
     World.init();
 
@@ -231,6 +285,7 @@ var MainGame = {
     console.log("Init DAXboard");
     DAXboard.DAXcanvas =  new Phaser.BitmapData(game, "DAXcanvas", game.width, 70)
     DAXboard.DAXimage = this.add.image(0, 0, DAXboard.DAXcanvas);
+    this.UI_group.add(DAXboard.DAXimage);
     DAXboard.init();
     DAXboard.update();
     game.time.events.loop(Phaser.Timer.SECOND, DAXboard.update, game);
@@ -240,6 +295,7 @@ var MainGame = {
 
     //MENU
     this.button = game.add.button(game.width/2, game.height/2, "button play", this.startGame);
+    this.UI_group.add(this.button);
   },
 
   startGame: function () {
