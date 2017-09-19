@@ -26,3 +26,17 @@ function update() {
   //after update: set new Image Data
   ctx.putImageData(ImageData, 0, 0);
 }
+
+function getPixel(x, y) {
+  if(x < 0 || y < 0 || x >= width || y >= height){
+    return undefined;
+  }
+  let color = {};
+}
+
+function Color(r, g, b, a){
+  this.r = r;
+  this.g = g;
+  this.b = b;
+  this.a = a;
+}
