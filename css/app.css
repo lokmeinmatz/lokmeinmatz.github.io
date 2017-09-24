@@ -1,16 +1,42 @@
-@import url('https://fonts.googleapis.com/css?family=Palanquin:300,400');
-
 
 #header {
   background-color: #ff383f;
   height: 100vh;
+  padding: 0px;
 }
 
-h1 {
-  font-family: 'Palanquin', sans-serif;
-  font-weight: 300;
+
+#header_text {
+  padding-top: 10%;
+
   color: #ffffff;
   margin: auto;
   text-align: center;
-  padding-top: 20vh;
+}
+
+#header_text h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 3em;
+  font-weight: 200;
+}
+
+#header_text h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2em;
+  font-weight: 300;
+}
+
+.spacer-vertical {
+  margin: 2%;
+}
+
+@media screen and (max-width: 1100px) {
+  #header_text h1 {
+    font-size: 1.3em;
+  }
+
+  #header_text h2 {
+    font-size: 0.8em;
+  }
+
 }
