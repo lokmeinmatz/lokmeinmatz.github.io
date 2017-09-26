@@ -19,7 +19,10 @@ const gravity = 0.3;
 function draw() {
   clear();
   updatePoints();
-  updateSticks();
+  for(let i = 0; i < 10; i++){
+    updateSticks();
+  }
+
   renderSticks();
   renderPoints();
 

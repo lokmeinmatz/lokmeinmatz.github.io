@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.sound.min.js"></script>
+    <script src="sketch.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+      html, body {
+        margin: 0px;
+        padding: 0px;
+        background-color: #000;
+        overflow: hidden; /*  Disable scrollbars */
+        display: block;  /* No floating content on sides */
+      }
+
+      html {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      canvas {
+        height: 100vw;
+
+        image-rendering: optimizeSpeed;
+        /* Older versions of FF          */
+        image-rendering: -moz-crisp-edges;
+        /* FF 6.0+                       */
+        image-rendering: -webkit-optimize-contrast;
+        /* Safari                        */
+        image-rendering: -o-crisp-edges;
+        /* OS X & Windows Opera (12.02+) */
+        image-rendering: pixelated;
+        /* Awesome future-browsers       */
+        -ms-interpolation-mode: nearest-neighbor;
+
+        display: block;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+</html>
