@@ -99,23 +99,23 @@ function CharLine(length, y){
 
 
 let chl = undefined;
-let chl2 = undefined;
 function setup() {
   createCanvas(1000, 1000);
   //chl.string = "Hallo Mama. wie gehts";
   chl = new CharLine(20, 10);
-  chl2 = new CharLine(20, 200);
-  chl2.text = "Bye 123 ";
+
 
   setInterval(function () {
+
+    let date = new Date();
+    
+
     chl.updateChars();
-    chl2.updateChars();
     clear();
     stroke(255, 0, 0);
     strokeWeight(0.05);
     strokeCap(ROUND);
     chl.draw();
-    chl2.draw();
   }, 500);
 
 
