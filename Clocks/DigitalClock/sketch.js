@@ -1,3 +1,20 @@
+if (!String.prototype.padStart) {
+    String.prototype.padStart = function padStart(targetLength,padString) {
+        targetLength = targetLength>>0; //floor if number or convert non-number to 0;
+        padString = String(padString || ' ');
+        if (this.length > targetLength) {
+            return String(this);
+        }
+        else {
+            targetLength = targetLength-this.length;
+            if (targetLength > padString.length) {
+                padString += padString.repeat(targetLength/padString.length); //append to original to ensure we are longer than needed
+            }
+            return padString.slice(0,targetLength) + String(this);
+        }
+    };
+}
+
 let stateDict = {};
 //                a  b  c  d  e  f  g1 g2 h  i  j  k  l  m dt
 stateDict["0"] = [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0];
@@ -5,7 +22,7 @@ stateDict["1"] = [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0];
 stateDict["2"] = [1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
 stateDict["3"] = [1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0,	0, 0, 0];
 stateDict["4"] = [0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0];
-stateDict["5"] = [1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0];
+stateDict["5"] = [1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0];
 stateDict["6"] = [1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0];
 stateDict["7"] = [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 stateDict["8"] = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0];
@@ -108,7 +125,10 @@ function setup() {
   setInterval(function () {
 
     let date = new Date();
-    
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let seconds = date.getSeconds();
+    chl.text = " // "+hour.toString().padStart(2)+"-"+minute.toString().padStart(2)+"-"+seconds.toString().padStart(2);
 
     chl.updateChars();
     clear();
