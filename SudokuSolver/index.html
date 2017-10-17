@@ -20,16 +20,16 @@
       padding: 0px;
     }
 
-    #sudoku{
+    #sudoku_table{
 
-      width: 900px;
-
+      width: 700px;
+      height: 700px;
 
     }
 
     input {
-      width: 90%;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       text-align: center;
       font-size: 2em;
       border-radius: 5px;
@@ -74,13 +74,17 @@
       background-color: #ecf0f1;
     }
 
+    tr {
+      margin: auto;
+    }
+
   </style>
 </head>
 
 <body>
 
-  <div id="sudoku" class="centered">
-    <table id="sudoku_table">
+
+    <table id="sudoku_table" class="centered">
       <tr>
         <td><input type="text" maxlength="1" id="1"/></td>
         <td><input type="text" maxlength="1" id="1"/></td>
@@ -202,7 +206,7 @@
       </tr>
 
     </table>
-  </div>
+
   <div class="centered">
     <button id="bttn">VALIDATE</button>
   </div>
