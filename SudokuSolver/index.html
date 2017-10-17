@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+  <title>Sudoku</title>
+  <style type="text/css">
+    html, body {
+      margin: 0px;
+      padding: 0px;
+      background-color: #fff;
+      overflow: hidden; /*  Disable scrollbars */
+      display: block;  /* No floating content on sides */
+    }
+
+    html {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #sudoku{
+
+      width: 900px;
+
+
+    }
+
+    input {
+      width: 90%;
+      height: 50px;
+      text-align: center;
+      font-size: 2em;
+      border-radius: 5px;
+      margin: 2px;
+      border-width: 0px;
+    }
+
+    .centered {
+      margin: auto;
+      width: 300px;
+
+      padding: 10px;
+    }
+
+    #bttn {
+      width: 100%;
+      height: 50px;
+      border-radius: 5px;
+      font-size: 2em;
+      background-color: #9b59b6;
+      border-width: 0px;
+      color: white;
+    }
+
+    .hspacer {
+      width: 5px;
+    }
+
+    .vspacer {
+      height: 5px;
+    }
+
+    .valid {
+      background-color: #2ecc71;
+    }
+
+    .invalid {
+      background-color: #e74c3c;
+    }
+
+    .empty {
+      background-color: #ecf0f1;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div id="sudoku" class="centered">
+    <table id="sudoku_table">
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr class="vspacer"></tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr class="vspacer"></tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+      <tr>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td class="hspacer"></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+        <td><input type="text" maxlength="1" id="1"/></td>
+      </tr>
+
+    </table>
+  </div>
+  <div class="centered">
+    <button id="bttn">VALIDATE</button>
+  </div>
+
+  <script src="jquery.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
