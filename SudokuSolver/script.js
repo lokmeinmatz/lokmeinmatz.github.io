@@ -6,7 +6,7 @@ let data = [];
 let validInputs = false;
 
 function solved(data) {
-  
+  //check if complete
 }
 
 function solve(){

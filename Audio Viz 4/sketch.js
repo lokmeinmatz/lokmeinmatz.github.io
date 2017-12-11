@@ -2,6 +2,8 @@ let mic, fft;
 const res = 256;
 
 let data = [];
+const avg = [];
+const smoothing = 0.999;
 
 const r = 50;
 
@@ -16,6 +18,10 @@ function setup() {
   mic.start();
   fft = new p5.FFT(0.05, res);
   fft.setInput(mic);
+
+  for(let y = 0; y < height / r; y++){
+    avg[y] = 40;
+  }
 
   for(let x = 0; x < width / r; x++){
     data.push([]);
@@ -44,6 +50,8 @@ function draw() {
   let newA = [];
 
   for(let i = 0; i < data[0].length; i++){
+    avg[i] = lerp(spectrum[i], avg[i], smoothing);
+    spectrum[i] /= avg[i] + 1;
     newA[i] = map(spectrum[floor(map(i, 0, data[0].length, 0, res/1.5))], 0, 255, 3, r*2);
   }
   data.push(newA);
@@ -51,7 +59,7 @@ function draw() {
   for(let x = 0; x < data.length; x++){
     fill(map(x, 0, data.length, 0, 360), 50, 70);
     for(let y = 0; y < data[0].length; y++){
-      ellipse(x * r, y * r, data[x][y]);
+      ellipse(x * r, y * r, data[x][y] * 1);
     }
 
   }
