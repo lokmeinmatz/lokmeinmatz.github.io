@@ -3,6 +3,7 @@ body {
     font-family: "Creepster", cursive;
     font-size: 2em;
     margin: 0px;
+    height: 100vh;
 }
 
 #open-side {
@@ -93,3 +94,176 @@ nav {
         }
     
     }
+
+
+/* Card */
+#card {
+    height: 80%;
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
+    font-size: 0.8em;
+    background-color: rgb(172, 32, 148);
+    border-radius: 10px;
+
+    -webkit-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.75);
+}
+
+#card-header {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px 10px 0px 0px;
+    height: 50px;
+    display: grid;
+    grid-template-columns: auto auto 35px; 
+    grid-template-rows: 50px; 
+}
+#card-header p {
+    margin: 0px;
+    padding: 12px;
+    font-size: 1em;
+}
+
+#card-info-btn {
+    margin-top: 2px;
+    grid-column: 3;
+    font-size: 1.5em;
+}
+
+#game-info {
+    margin: 10px;
+}
+
+#game-info p {
+    font-size: 0.9em;
+    padding: 0px;
+}
+
+#current-action-div {
+    margin: 10px;
+    
+}
+
+#select-and-vote {
+    display: grid;
+    grid-template-columns: 50% 50%; 
+    grid-template-rows: 50px; 
+}
+
+select {
+    font-size: 0.9em;
+    font-family: "Creepster", cursive;
+    color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border:none;
+    border-radius: 2px; 
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(0,0,0,0.2);
+    text-align: center;
+    padding: 0 10px;
+    margin-right: 5px;
+    -webkit-box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.75);
+}
+
+select:hover {
+    -webkit-box-shadow: 1px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 5px 5px 0px rgba(0,0,0,0.75);
+}
+
+option {
+    text-align: center;
+    font-size: 1.5em;
+    background:rgb(80, 80, 80);
+    border-top:1px solid #444;
+}
+
+#vote-btn {
+    color: #fff;
+    height: 50px;
+    line-height: 50px;
+    border:none;
+    border-radius: 2px; 
+    background-color: rgba(8, 216, 19, 0.993);
+    text-align: center;
+    margin-left: 5px;
+    grid-column: 2;
+    -webkit-box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.75);
+}
+
+#vote-btn:hover {
+    -webkit-box-shadow: 1px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 5px 5px 0px rgba(0,0,0,0.75);
+}
+
+#voting-results {
+    margin: 10px;
+    padding: 10px 0px;
+    
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+}
+
+.modal-content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    background-color: rgb(15, 33, 87);
+    margin: auto auto; /* 15% from the top and centered */
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal h2 {
+    font-size: 0.8em;
+}
+
+.modal p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.5em;
+}
+
+#voting-modal-content {
+    height: 90%;
+}
+
+#canvas-div {
+    height: 80%;
+}
