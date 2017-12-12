@@ -24,6 +24,11 @@ body {
 a {
     text-decoration: None;
     color: #fff;
+    cursor: pointer;
+}
+
+.help {
+    cursor: help;
 }
 
 header {
