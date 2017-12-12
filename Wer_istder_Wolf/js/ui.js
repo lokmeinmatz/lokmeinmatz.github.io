@@ -6,10 +6,21 @@ function drawVotingChart() {
     let chartcanvas = $("<canvas/>", {
         id: "chart-canvas"
     }).prop({
-        width: 300,
+        width: 400,
         height: 200,
     });
-    $("#canvas-div").empty().append(chartcanvas);
+    //if desktop mode: display chart directly
+    if(window.innerWidth <= 800){
+        $("#voting-results canvas").remove();
+        $("#canvas-div canvas").remove();
+        $("#canvas-div").append(chartcanvas);
+    }
+    else{
+        $("#voting-results canvas").remove();
+        $("#canvas-div canvas").remove();
+        $("#voting-results").append(chartcanvas);
+    }
+    
     let ctx = chartcanvas[0].getContext("2d");
 
  
@@ -88,6 +99,12 @@ function onload() {
     //Popup zur Erklärung des aktuellen Status
     $("#show-voting-btn").click(ShowVotingModal);
     $("#close-voting-modal").click(CloseVotingModal);
+
+    drawVotingChart();
+
+    $(window).resize(function(){
+        drawVotingChart();
+    });
 }
 
 function NightMode() {
