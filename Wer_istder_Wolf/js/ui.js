@@ -9,6 +9,7 @@ function drawVotingChart() {
         width: 400,
         height: 200,
     });
+    $(".chartjs-size-monitor").remove();
     //if desktop mode: display chart directly
     if(window.innerWidth <= 800){
         $("#voting-results canvas").remove();
@@ -59,19 +60,27 @@ function drawVotingChart() {
         // Configuration options go here
         options: {
             maintainAspectRatio: false,
+            legend: {
+                labels: {
+                    fontColor: "white",
+                    fontSize: 18
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        fontColor: "white",
+                        fontSize: 18,
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontColor: "white",
+                        fontSize: 14,
+                        stepSize: 1,
                     }
                 }]
-            },
-            legend: {
-                labels: {
-                    // This more specific font property overrides the global property
-                    fontColor: '#fff',
-                    fontSize: 15,
-                }
             }
         }
     });
