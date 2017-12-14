@@ -12,19 +12,25 @@
 </head>
 
 <body>
+  <div id="background-img"></div>
   <div id="header">
     <div id="header_text">
       <h1>Welcome to Matthias' awesome website!</h1>
       <hr />
-      <h2><span class="header_h2">Programmer</span><span class="spacer-vertical">|</span>
-        <span class="header_h2">Photographer</span><span class="spacer-vertical">|</span>
-          <span class="header_h2">Computer Science</span></h2>
+      <div id="header_sub_text">
+        <h2 class="header_h2">Programmer</h2>
+        <h2>|</h2>
+        <h2 class="header_h2">Photographer</h2>
+        <h2>|</h2>
+        <h2 class="header_h2">Computer Science</h2>
+      </div>
     </div>
 
     <div id="header_infobox">
       <div id="header_infobox_content">
         <p>
-          Random TEEEEXTsafdasfdsiasdhidsilhgs
+          “Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live”<br>
+          - John Woods
         </p>
       </div>
     </div>
@@ -34,126 +40,129 @@
     </p>
 
   </div>
-  <div class="grid-container">
-    <div class="grid-x grid-padding-x">
-      <div class="large-12 cell">
-
-      </div>
-    </div>
-
-    <div class="grid-x grid-padding-x">
-      <div class="large-12 cell">
-        <div class="callout">
-          <h3>About me!</h3>
-          <p>I'm 17, living in Berlin and a fan of programming, photography, videography and science.</p>
-          <hr />
-          <h4>Current Projects</h4>
+  <div style="background-color: rgba(255, 255, 255, 0.7);">
+      <div class="grid-container">
           <div class="grid-x grid-padding-x">
-            <div class="large-4 medium-4 cell">
-              <p><a href="/MineSweeper/index.html">MineSweeper</a><br />Just a JS-Implementation of MineSweeper, not all features there. Works also on mobile.</p>
-            </div>
-            <div class="large-4 medium-4 cell">
-              <p><a href="/TickTackToe/index.html">Tick Tack Toe</a><br />I think you know Tick Tack Toe, but this one has an AI included! Works also on mobile.</p>
-            </div>
-            <div class="large-4 medium-4 cell">
-              <p><a href="/Wer_istder_Wolf/index.html">Wer ist der Wolf?</a><br />A project I'm currently working on for a game contest. Please do not copy :D</p>
+            <div class="large-12 cell">
+      
             </div>
           </div>
+      
           <div class="grid-x grid-padding-x">
-            <div class="large-4 medium-4 medium-push-2 cell">
-              <p><a href="/Double Pendulum/index.html">Double Pendulum</a><br />This experiment failed! Idea: Simulate a double pendulum with Verlet Integration.</p>
-            </div>
-            <div class="large-4 medium-4 medium-push-2 cell">
-              <p><a href="/Racing Game/index.html">RacingGame</a><br />2D Retro Game ported from C++ (by some Youtube guy)</p>
-            </div>
-            <div class="large-4 medium-4 medium-push-2 cell">
-              <p><a href="/Snake/index.html">Snake!</a><br />2D Pixel Snake, currently working on AI</p>
+            <div class="large-12 cell">
+              <div class="callout">
+                <h3>About me!</h3>
+                <p>I'm 17, living in Berlin and a fan of programming, photography, videography and science.</p>
+                <hr />
+                <h4>Current Projects</h4>
+                <div class="grid-x grid-padding-x">
+                  <div class="large-4 medium-4 cell">
+                    <p><a href="/MineSweeper/index.html">MineSweeper</a><br />Just a JS-Implementation of MineSweeper, not all features there. Works also on mobile.</p>
+                  </div>
+                  <div class="large-4 medium-4 cell">
+                    <p><a href="/TickTackToe/index.html">Tick Tack Toe</a><br />I think you know Tick Tack Toe, but this one has an AI included! Works also on mobile.</p>
+                  </div>
+                  <div class="large-4 medium-4 cell">
+                    <p><a href="/Wer_istder_Wolf/index.html">Wer ist der Wolf?</a><br />Design Experiment for an online-game</p>
+                  </div>
+                </div>
+                <div class="grid-x grid-padding-x">
+                  <div class="large-4 medium-4 medium-push-2 cell">
+                    <p><a href="/Shadow2D/index.html">Shadow2D</a><br />Method to render 2d Shadows (for Poligons)... Sourcecode also contains "random" raycast method.</p>
+                  </div>
+                  <div class="large-4 medium-4 medium-push-2 cell">
+                    <p><a href="/Racing Game/index.html">RacingGame</a><br />2D Retro Game ported from C++ (by some Youtube guy)</p>
+                  </div>
+                  <div class="large-4 medium-4 medium-push-2 cell">
+                    <p><a href="/Snake/index.html">Snake!</a><br />2D Pixel Snake, currently working on AI</p>
+                  </div>
+                </div>
+                <div class="grid-x grid-padding-x">
+                  <div class="large-4 medium-4 medium-push-2 cell">
+                    <a href="#">Clocks</a>
+                    <ul class="accordion" data-accordion>
+                      <li class="accordion-item is-active" data-accordion-item>
+                        <a href="#" class="accordion-title">PixelClock</a>
+                        <div class="accordion-content" data-tab-content>
+                          <p>
+                            Not very awesome, but it can tell the time!
+                          </p>
+                          <a href="/Clocks/PixelClock/">View Clock</a>
+                        </div>
+                      </li>
+      
+                      <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title">Segment-Display</a>
+                        <div class="accordion-content" data-tab-content>
+                          <p>
+                            This isn't exactly a clock, but it could be...
+                          </p>
+                          <a href="/Clocks/DigitalClock/">View Clock</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+      
+                  <div class="large-4 medium-4 medium-push-2 cell">
+                    <a href="#">Audio Vizualisations</a>
+                    <ul class="accordion" data-accordion>
+                      <li class="accordion-item is-active" data-accordion-item>
+                        <a href="#" class="accordion-title">Audio Viz 1</a>
+                        <div class="accordion-content" data-tab-content>
+                          <p>
+                            This infotext went missing!
+                          </p>
+                          <a href="/Audio Viz/">View Audio Vizualizer</a>
+                        </div>
+                      </li>
+      
+                      <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title">Audio Viz 2</a>
+                        <div class="accordion-content" data-tab-content>
+                          <p>
+                            This infotext went missing!
+                          </p>
+                          <a href="/Audio Viz 2/">View Audio Vizualizer</a>
+                        </div>
+                      </li>
+      
+                      <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title">Audio Viz 3</a>
+                        <div class="accordion-content" data-tab-content>
+                          <p>
+                            This infotext went missing!
+                          </p>
+                          <a href="/Audio Viz 3 webGL/">View Audio Vizualizer</a>
+                        </div>
+                      </li>
+      
+                      <li class="accordion-item" data-accordion-item>
+                        <a href="#" class="accordion-title">Audio Viz 4</a>
+                        <div class="accordion-content" data-tab-content>
+                          <p>
+                            This infotext went missing!
+                          </p>
+                          <a href="/Audio Viz 4/">View Audio Vizualizer</a>
+                        </div>
+                      </li>
+      
+                    </ul>
+                  </div>
+      
+                </div>
+              </div>
             </div>
           </div>
-          <div class="grid-x grid-padding-x">
-            <div class="large-4 medium-4 medium-push-2 cell">
-              <a href="#">Clocks</a>
-              <ul class="accordion" data-accordion>
-                <li class="accordion-item is-active" data-accordion-item>
-                  <a href="#" class="accordion-title">PixelClock</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>
-                      Not very awesome, but it can tell the time!
-                    </p>
-                    <a href="/Clocks/PixelClock/">View Clock</a>
-                  </div>
-                </li>
-
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Segment-Display</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>
-                      This isn't exactly a clock, but it could be...
-                    </p>
-                    <a href="/Clocks/DigitalClock/">View Clock</a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div class="large-4 medium-4 medium-push-2 cell">
-              <a href="#">Audio Vizualisations</a>
-              <ul class="accordion" data-accordion>
-                <li class="accordion-item is-active" data-accordion-item>
-                  <a href="#" class="accordion-title">Audio Viz 1</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>
-                      This infotext went missing!
-                    </p>
-                    <a href="/Audio Viz/">View Audio Vizualizer</a>
-                  </div>
-                </li>
-
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Audio Viz 2</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>
-                      This infotext went missing!
-                    </p>
-                    <a href="/Audio Viz 2/">View Audio Vizualizer</a>
-                  </div>
-                </li>
-
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Audio Viz 3</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>
-                      This infotext went missing!
-                    </p>
-                    <a href="/Audio Viz 3 webGL/">View Audio Vizualizer</a>
-                  </div>
-                </li>
-
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Audio Viz 4</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>
-                      This infotext went missing!
-                    </p>
-                    <a href="/Audio Viz 4/">View Audio Vizualizer</a>
-                  </div>
-                </li>
-
-              </ul>
-            </div>
-
-          </div>
+          <h5>Contact</h5>
+          <ul class="menu">
+            <li><a href="#0"><i class="fi-list"></i> <span>One</span></a></li>
+            <li><a href="#0"><i class="fi-list"></i> <span>Two</span></a></li>
+            <li><a href="#0"><i class="fi-list"></i> <span>Three</span></a></li>
+            <li><a href="#0"><i class="fi-list"></i> <span>Four</span></a></li>
+          </ul>
         </div>
-      </div>
-    </div>
-    <h5>Contact</h5>
-    <ul class="menu">
-      <li><a href="#0"><i class="fi-list"></i> <span>One</span></a></li>
-      <li><a href="#0"><i class="fi-list"></i> <span>Two</span></a></li>
-      <li><a href="#0"><i class="fi-list"></i> <span>Three</span></a></li>
-      <li><a href="#0"><i class="fi-list"></i> <span>Four</span></a></li>
-    </ul>
   </div>
+  
 
   <script src="js\jquery-3.2.1.js"></script>
   <script src="js/vendor/what-input.js"></script>
