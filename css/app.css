@@ -1,20 +1,30 @@
 
 #header {
-  background-color: #ff383f;
   height: 100vh;
   padding: 0px;
   transition: all 1s ease;
 
 }
 
+#background-img {
+  background-image: url("/imgs/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgb(40, 40, 40);
+  position: absolute;
+  z-index: -100;
+  width: 100%;
+  height: 100%;
+}
+
 
 #header_text {
-  margin-top: 20%;
+  margin-top: 100px;;
 
   color: #ffffff;
   margin: auto;
   text-align: center;
-  margin-bottom: 10%;
+  margin-bottom: 100px;;
 }
 
 #header_text h1 {
@@ -33,12 +43,15 @@
 
 }
 
-#header_text .header_h2 {
-  transition: all 0.5s;
+#header_sub_text h2 {
+  padding: 10px;
+  display: inline-block;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
 }
 
-#header_text .header_h2:hover {
-  font-size: 1.1em;
+#header_sub_text .header_h2:hover{
+  transform: scale(1.1);
 }
 
 .spacer-vertical {
@@ -57,16 +70,21 @@
 }
 
 #header_infobox {
-  margin: auto;
-
+  margin-top: 100px;
   max-width: 500px;
   max-height:200px;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
 
   color: #ffffff;
   margin: auto;
   text-align: center;
+}
+
+#header_infobox_content {
+  padding: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3em;
 }
 
 #down_btn {
