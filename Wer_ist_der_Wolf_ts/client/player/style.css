@@ -1,0 +1,54 @@
+
+#select-and-vote {
+    display: grid;
+    grid-template-columns: 50% 50%; 
+    grid-template-rows: 50px;
+    margin-top: 10px;
+    
+}
+
+#select-and-vote p {
+    margin: 10px;
+}
+
+select {
+    font-size: 0.9em;
+    font-family: "Creepster", cursive;
+    color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border:none;
+    border-radius: 2px; 
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(0,0,0,0.2);
+    text-align: center;
+    padding: 0 10px;
+    margin-right: 5px;
+    -webkit-box-shadow: 3px 4px 0px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 3px 4px 0px 0px rgba(0,0,0,0.5);
+    box-shadow: 3px 4px 0px 0px rgba(0,0,0,0.5);
+}
+
+select:hover {
+    -webkit-box-shadow: 5px 6px 0px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 5px 6px 0px 0px rgba(0,0,0,0.5);
+    box-shadow: 5px 6px 0px 0px rgba(0,0,0,0.5);
+}
+
+option {
+    text-align: center;
+    font-size: 1.5em;
+    background:rgb(80, 80, 80);
+    border-top:1px solid #444;
+}
+
+
+#voting-results {
+    margin: 10px;
+    padding: 10px 0px;
+    flex-grow: 1;
+    height: 100%;
+    
+}

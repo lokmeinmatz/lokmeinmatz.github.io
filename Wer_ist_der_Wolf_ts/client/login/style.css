@@ -1,0 +1,20 @@
+#login-div {
+    display: grid;
+    grid-template-rows: 70px 70px;
+    grid-template-columns: auto;
+    line-height: 70px;
+}
+
+#login-div input {
+    margin: auto 10px;
+    font-size: 0.7em;
+    border-radius: 5px;
+    width: 90%;
+}
+
+#btn-connect {
+    grid-column: 2;
+    width: 90%;
+    margin: auto 10px;
+}
+
