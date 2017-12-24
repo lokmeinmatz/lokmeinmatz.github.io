@@ -1,0 +1,21 @@
+{
+  "name": "wer_ist_der_wolf_ts",
+  "version": "1.0.0",
+  "description": "A online multiplayer game for groups",
+  "main": "app.js",
+  "dependencies": {
+    "@types/jsdom": "^11.0.4",
+    "express": "^4.16.2",
+    "jquery-ts": "^2.1.1",
+    "jsdom": "^11.5.1",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^8.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lokmeinmatz",
+  "license": "ISC"
+}

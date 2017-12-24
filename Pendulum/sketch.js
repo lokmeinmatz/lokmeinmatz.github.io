@@ -12,22 +12,24 @@ class Point {
 }
 
 let trail;
+const scale = 4;
 
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(1000 * scale, 1000 * scale);
   sticks = [
     {p0: points[0], p1: points[1], distance: dist(points[0].X, points[0].Y, points[0].Z, points[1].X, points[1].Y, points[1].Z)},
   ];
-  trail = createGraphics(1000, 1000);
+  trail = createGraphics(width, height);
   trail.translate(width/2, height/2);
   trail.noStroke();
+  trail.background(20);
   trail.fill(100, 200, 250);
   //noLoop();
 }
 
 var points = [
-  new Point(0, 0, 2000),
-  new Point(200, 200, 0)
+  new Point(0, 0, 2000*scale),
+  new Point(100*scale, 300*scale, 0)
 ];
 
 points[0].fixed = true;
@@ -36,19 +38,19 @@ points[1].oldY -= 0.1;
 
 var sticks = [];
 
-const gravity = 0.01;
+const gravity = 0.007;
 
 function draw() {
   clear();
 
-  for(let upf = 0; upf < 10; upf++){
+  for(let upf = 0; upf < 50; upf++){
     updatePoints();
     for(let i = 0; i < 10; i++){
       updateSticks();
     }
     //draw second point to offset canvas
     
-    trail.ellipse(points[1].X, points[1].Y, 1);
+    trail.ellipse(points[1].X, points[1].Y, scale*5);
   }
   
   image(trail, 0, 0);
@@ -57,12 +59,21 @@ function draw() {
   renderPoints();
 }
 
+function keyTyped() {
+  if(key == "s") {
+    saveCanvas(trail, String(new Date().getTime()), "png");
+  }
+}
+
 function updatePoints() {
   for(let i = 0; i < points.length; i++){
     let p = points[i],
         vx = p.X - p.oldX,
         vy = p.Y - p.oldY;
         vz = p.Z - p.oldZ;
+    
+        let v = sqrt(vx*vx + vy*vy + vz*vz);
+        trail.fill(constrain(v*100, 0, 255), constrain(v*200, 0, 255), constrain(400 - v*200, 0, 255));
     if(!p.fixed){
 
       p.oldX = p.X;

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Wer ist der Wolf? | Login</title>
+        <!-- charts -->
+        <script src="/client/js/Chart.js"></script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Creepster"rel="stylesheet">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+        <link rel="icon" href="/client/imgs/logo.png" type="image/vnd.microsoft.icon">
+        <link rel="stylesheet" href="/client/css/base_style.css">
+        <link rel="stylesheet" href="/client/login/style.css">
+        <script src="/client/js/jquery-large.js"></script>
+        
+        <!-- Socket IO -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+        <!-- utils -->
+        <script src="/client/js/utils.js"></script>
+
+        <script src="/client/login/login.js"></script>
+    </head>
+
+    <body onload="onload();">
+        <header>
+
+            
+            
+            <nav>
+                
+                <a href="#" id="open-side">
+                    <i class="material-icons">menu</i>
+                </a>
+                
+                <ul id="navbar-desktop" class="navbar">
+                    <li><a href="#">TODO was ist hier???</a></li>
+                    <li><a class="btn-nightmode" href="#">Nachtmode</a></li>
+                </ul>
+            </nav>
+            <!-- Mobile Navbar -->
+            <div id="side-menu" class="navbar">
+                <ul id="navbar-mobile">
+                    <li><a href="#">TODO was ist hier???</a></li>
+                    <li><a class="btn-nightmode" href="#">Nachtmode</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <div id="card">
+            <div id="card-header">
+                <p>Spiel beitreten</p>
+            </div>
+            <div id="card-content">
+                <!-- SpielInfos -->
+                <div id="game-info">
+                    <p>Gib hier die <a class="help btn-gameID">GameID</a> ein.</p>
+                </div>
+                <div id="current-action-div">
+                    <div id="login-div">
+                        <p>GameID:</p><input>
+                        <p>Name :</p><input>
+                        <a href="#" id="btn-connect" class="btn">Verbinden</a>
+                    </div>           
+                </div>
+                
+            </div>
+            
+        </div>
+
+
+        <!-- gameID modal -->
+        <div id="gameID-modal" class="modal">
+    
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Info zur GameID</h2>
+                <p>
+                    Die GameID is eine einzigartige Nummer, die euch dem richtigen Spiel zuweist.
+                    Eerfahren könnt ihr diese von dem Spielleiter.
+                </p>
+            </div>
+        
+        </div>
+
+
+       
+
+    </body>
+
+</html>

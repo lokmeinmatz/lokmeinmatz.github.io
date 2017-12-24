@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Wer ist der Wolf? | In Game</title>
+        <!-- charts -->
+        <script src="/client/js/Chart.js"></script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Creepster"rel="stylesheet">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+        <link rel="icon" href="/client/imgs/logo.png" type="image/vnd.microsoft.icon">
+        <link rel="stylesheet" href="/client/css/base_style.css">
+        <link rel="stylesheet" href="/client/player/style.css">
+        <script src="/client/js/jquery-large.js"></script>
+        <!-- utils -->
+        <script src="/client/js/utils.js"></script>
+
+        <script src="/client/player/player.js"></script>
+    </head>
+
+    <body onload="onload();">
+        <header>
+
+            
+            
+            <nav>
+                
+                <a href="#" id="open-side">
+                    <i class="material-icons">menu</i>
+                </a>
+                
+                <ul id="navbar-desktop" class="navbar">
+                    <li><a href="#">Lebende Spieler</a></li>
+                    <li><a href="#">Einstellungen</a></li>
+                    <li><a href="#">Spiel verlassen</a></li>
+                    <li><a class="btn-nightmode" href="#">Nachtmode</a></li>
+                </ul>
+            </nav>
+            <!-- Mobile Navbar -->
+            <div id="side-menu" class="navbar">
+                <ul id="navbar-mobile">
+                    <li><a href="#">Lebende Spieler</a></li>
+                    <li><a href="#">Einstellungen</a></li>
+                    <li><a href="#">Spiel verlassen</a></li>
+                    <li><a class="btn-nightmode" href="#">Nachtmode</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <div id="card">
+            <div id="card-header">
+                <p>Du bist <a href="#" id="role-name" class="help btn-role">Werwolf</a></p>
+                <a href="#" id="card-info-btn" class="help btn-role">
+                    <i class="material-icons">info_outline</i>
+                </a>
+            </div>
+            <div id="card-content">
+                <!-- SpielInfos -->
+                <div id="game-info">
+                    <p>Es ist Tag 2</p>
+                    <p>Aktueller Status: <a id="btn-state" class="help">Verurteilung</a></p>
+                </div>
+                <div id="current-action-div">
+                    <p>Wer soll sterben?<br>Gib hier deine Stimme!</p>
+                    <div id="select-and-vote">
+                        <select>
+                            <option>Joseph</option>
+                            <option>Sebastian</option>
+                            <option>Matthias</option>
+                        </select>
+                        <a href="#" id="vote-btn" class="btn">Vote</a>
+                    </div>           
+                </div>
+                <div id="voting-results">
+                    <!-- Chart or modal??? -->
+                    <a href="#" id="show-voting-btn">Voting sehen (mobile only!?)</a>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <!-- night modal -->
+        <div id="night-modal" class="modal">
+    
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span id="close-night-modal" class="close-modal">&times;</span>
+                <h2>Es wird Nacht... Augen zu!!!</h2>
+            </div>
+        
+        </div>
+
+
+        <!-- role modal -->
+        <div id="role-modal" class="modal">
+            
+            <!-- Modal content vom Server festlegen??? oder hardcoden in js -->
+            <div class="modal-content">
+                <span id="close-role-modal" class="close-modal">&times;</span>
+                <h2>Rollenbeschreibung Werwolf</h2>
+                <p>Du und die anderen Werwölfe erwachen jede Nacht auf Zeichen des Spielleiters, um ein Opfer auszusuchen. <br>
+                Dieses stirbt darauf hin und wird am nächsten Morgen nichtmehr aufwachen.<br>
+            Tagsüber müsst ihr eure Identität verbergen, damit die Dorfbewohner euch nicht verurteilen!</p>
+            </div>
+        
+        </div>
+
+        <!-- conviction modal -->
+        <div id="state-modal" class="modal">
+            
+            <!-- Modal content vom Server festlegen??? oder hardcoden in js -->
+            <div class="modal-content">
+                <span id="close-state-modal" class="close-modal">&times;</span>
+                <h2>Erklärung Verurteilung</h2>
+                <p>So geht das nicht weiter!. <br>
+                Du und die anderen Dorfbewohner müssen einen der Angeklagten verurteilen,<br>
+                damit euer Dorf irgendwann frei von Werwölfen ist.<br>
+                Aber Achtung! Die Werwölfe könnten versuchen dich zu manipulieren...</p>
+            </div>
+        
+        </div>
+
+         <!-- voting modal -->
+         <div id="voting-modal" class="modal">
+            
+            <!-- Modal content vom Server festlegen??? oder hardcoden in js -->
+            <div id="voting-modal-content" class="modal-content">
+                <span id="close-voting-modal" class="close-modal">&times;</span>
+                <h2>Voting Verurteilung Tag 2</h2>
+                <div id="canvas-div">
+
+                </div>
+            </div>
+        
+        </div>
+
+    </body>
+
+</html>
