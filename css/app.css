@@ -109,3 +109,22 @@
   border-width: 2px;
   cursor: pointer;
 }
+
+#blog-btn {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #ff383f;
+  border-style: solid;
+  border-color: #ff383f;
+  text-decoration: None;
+  color: #fff;
+}
+
+#blog-btn:hover {
+  
+  background-color: #fff;
+  text-decoration: None;
+  color: #ff383f;
+  border-color: #ff383f;
+  
+}
