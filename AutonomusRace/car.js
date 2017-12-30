@@ -25,6 +25,7 @@ class Car {
         let res = new Car(this.pos.copy())
         res.direction = this.direction
         res.brain = this.brain.copy()
+        res.distTravelled = this.distTravelled
         return res
     }
 
@@ -34,6 +35,7 @@ class Car {
         this.speed = 0
         this.acc = 0
         this.break = 0
+        this.distTravelled = 0
         this.collided = false
         this.updateTransMesh()
         this.prevTransformedMesh = this.transformedMesh.copy()
@@ -79,7 +81,7 @@ class Car {
         if(!this.collided) {
             this.checkForCollision()
             let dirV = p5.Vector.fromAngle(radians(this.direction + 90) )
-            this.speed += this.acc * 0.1
+            this.speed += this.acc * 0.1 * (1 - Math.abs(this.steer * 0.5))
             
             this.speed -= constrain(this.break * 0.1, 0, this.speed)
             this.distTravelled += this.speed
@@ -87,6 +89,7 @@ class Car {
             //clamp all vars
             this.speed = constrain(this.speed, -5, 5)
             this.steer = constrain(this.steer, -1.5, 1.5)
+           
     
             this.pos.add(dirV.copy().mult(this.speed))
             

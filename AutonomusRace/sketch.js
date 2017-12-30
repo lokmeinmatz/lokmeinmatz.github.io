@@ -4,11 +4,16 @@ let track,
     cars
 
 let popCounter = 0
+let history = []
+let drawInfos = true
 
 let SPEED = 3;
 let trailMap;
 
 let mutationRate = 1.0
+let mutationFactor = 100
+
+let bestCar = null
 
 function setup() {
   createCanvas(1800, 1000);
@@ -74,21 +79,49 @@ function allCarsDead() {
   return true
 }
 
+class PopulationInfo {
+  constructor(id, bestOverAll, bestThisRound, Avg, Worst) {
+    this.ID = id
+    this.bestOverAll = bestOverAll
+    this.bestThisRound = bestThisRound
+    this.Avg = Avg
+    this.Worst = Worst
+  }
+}
+
 function newPopulation() {
   let best = cars[0]
   let second = cars[1]
-  
-
+  let worstDist = best.distTravelled
+  let totalDist = 0
   for(let i = 0; i < cars.length; i++) {
     if(cars[i].distTravelled > best.distTravelled) {
       second = best
       best = cars[i]
     }
+    if(cars[i].distTravelled < worstDist) {
+      worstDist = cars[i].distTravelled
+    }
+    totalDist += cars[i].distTravelled
   }
+  if(!bestCar) {
+    bestCar = best.copy()
+  }
+  if(best.distTravelled > bestCar.distTravelled) {
+    bestCar = best.copy()
+  }
+
+  let statsBOA = bestCar.distTravelled
+  let statsBTR = best.distTravelled
+  let Avg = totalDist / cars.length
+  let popInfo = new PopulationInfo(popCounter, statsBOA, statsBTR, Avg, worstDist)
+  history.push(popInfo)
+
   let popSize = cars.length
   //create new population, clone and mutate car
   cars = []
-  let currentMutRate = 100 / (best.distTravelled + 0.1)
+  if(popCounter % 20) mutationFactor *= 0.5  
+  let currentMutRate = mutationFactor / (best.distTravelled + 0.1)
   mutationRate += currentMutRate
   mutationRate /= 2
   console.log("Randomizing by " + mutationRate.toString())
@@ -108,7 +141,7 @@ function newPopulation() {
   cars[cars.length - 2].reset(startVavg)
   cars[cars.length - 1].reset(startVavg)
 
-
+  popCounter++
 }
 
 
@@ -152,4 +185,31 @@ function draw() {
   textSize(20)
   text(popCounter.toString(), 15, 15)
   text(frameRate().toFixed(2).toString(), 15, 40)
+  if(bestCar)text("Best car distance travelled: "+bestCar.distTravelled.toFixed(2).toString(), 15, 100)
+
+  if(drawInfos && history.length > 1) {
+    fill(255, 255, 255, 100)
+    rect(10, 10, width-10, height-10)
+    for(let i = 0; i < history.length-1; i++) {
+      let dataCur = history[i]
+      let dataNxt = history[i+1]
+      let x1 = map(i, 0, history.length, 100, width-100)
+      let x2 = map(i+1, 0, history.length, 100, width-100)
+      //Draw boa
+      stroke(0, 255, 100)
+      line(x1, map(dataCur.bestOverAll, 0, 8000, height-100, 100), x2, map(dataNxt.bestOverAll, 0, 8000, height-100, 100))
+
+      //Draw btr
+      stroke(0, 100, 255)
+      line(x1, map(dataCur.bestThisRound, 0, 8000, height-100, 100), x2, map(dataNxt.bestThisRound, 0, 8000, height-100, 100))
+
+      //Draw avg
+      stroke(200, 150, 100)
+      line(x1, map(dataCur.Avg, 0, 8000, height-100, 100), x2, map(dataNxt.Avg, 0, 8000, height-100, 100))
+
+      //Draw Worst
+      stroke(255, 0, 0)
+      line(x1, map(dataCur.Worst, 0, 8000, height-100, 100), x2, map(dataNxt.Worst, 0, 8000, height-100, 100))
+    }
+  }
 }
