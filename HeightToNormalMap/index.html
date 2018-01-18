@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>NormalMap</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet"> 
+
+        <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <nav>
+            <h1>Convert Heightmap to Normalmap</h1>
+        </nav>
+        <main>
+            <div class="slidecontainer">
+                <h2>Strength</h2>
+                <input type="range" min="0.1" max="10" value="1" class="slider" id="strength">
+            </div>
+            <h2>Upload Image to convert</h2>
+
+            <input id="btn" type="file" onchange="upload()"><br>
+            <img src="" id="preview" alt="Image preview...">    
+            <img src="" id="result" alt="Image result...">
+            <div id="rd-bar">
+                <button onclick="refresh();">REFRESH</button>
+                <button onclick="download();">DOWNLOAD</button>
+            </div>
+            <div id="spinner-l" class="spinner invisible">
+                <div class="cube1"></div>
+                <div class="cube2"></div>
+            </div>
+            
+        </main>
+        
+    
+    </body>
+</html>
