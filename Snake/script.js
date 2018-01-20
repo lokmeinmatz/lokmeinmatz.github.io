@@ -22,6 +22,7 @@ const grid_w = 10,
 let cellSize = 10;
 const food = -1;
 
+let currentFood = new Coord(-1, -1);
 
 function setup() {
   createCanvas(100, 100);
@@ -53,7 +54,6 @@ function setup() {
 let speed = 10;
 let timer = 0;
 
-let currentFood = new Coord(-1, -1);
 
 function spawnRandomFood(){
 
