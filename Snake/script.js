@@ -12,8 +12,11 @@ const HEADING = {
   }
 }
 
-let grid = [];
-let snake = new Snake();
+let restartTimer = 30
+
+let grid
+let snake
+
 const grid_w = 10,
       grid_h = 10;
 let cellSize = 10;
@@ -35,6 +38,17 @@ function setup() {
   noSmooth();
   ellipseMode(CORNER);
   snake.path = getPath();
+  
+  grid = []
+  snake = new Snake()
+  
+  for(let i = 0; i < grid_w; i++){
+  grid.push([]);
+  for(let j = 0; j < grid_h; j++){
+    grid[i].push(0);
+  }
+}
+  
 }
 
 let speed = 10;
@@ -147,8 +161,14 @@ function Snake(){
     }
     else{
       //lost
-      noLoop();
-      console.log("game Over!!!");
+      //countdown
+      if(restartTimer > 0) {
+        restartTimer-= 1
+      }
+      else {
+        setup()
+      }
+      
     }
 
   }
