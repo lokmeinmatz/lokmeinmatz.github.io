@@ -29,7 +29,7 @@ function setup() {
   let canvasstyle = document.getElementsByTagName("canvas")[0].style;
   canvasstyle.height = "100vh";
   canvasstyle.width = "auto";
-  spawnRandomFood();
+  
   noSmooth();
   ellipseMode(CORNER);
   snake.path = getPath();
@@ -42,6 +42,8 @@ function setup() {
   for(let j = 0; j < grid_h; j++){
     grid[i].push(0);
   }
+    
+    spawnRandomFood();
 }
   
 }
