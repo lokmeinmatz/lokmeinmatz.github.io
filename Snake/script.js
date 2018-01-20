@@ -36,7 +36,7 @@ function setup() {
   
   grid = []
   snake = new Snake()
-  snake.path = getPath()
+  
   
   for(let i = 0; i < grid_w; i++){
   grid.push([]);
@@ -45,6 +45,7 @@ function setup() {
   }
     
     spawnRandomFood();
+    snake.path = getPath()
 }
   
 }
