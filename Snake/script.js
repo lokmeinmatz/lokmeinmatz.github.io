@@ -32,10 +32,11 @@ function setup() {
   
   noSmooth();
   ellipseMode(CORNER);
-  snake.path = getPath();
+  
   
   grid = []
   snake = new Snake()
+  snake.path = getPath()
   
   for(let i = 0; i < grid_w; i++){
   grid.push([]);
