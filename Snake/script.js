@@ -21,12 +21,7 @@ const grid_w = 10,
       grid_h = 10;
 let cellSize = 10;
 const food = -1;
-for(let i = 0; i < grid_w; i++){
-  grid.push([]);
-  for(let j = 0; j < grid_h; j++){
-    grid[i].push(0);
-  }
-}
+
 
 function setup() {
   createCanvas(100, 100);
