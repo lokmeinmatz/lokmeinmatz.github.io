@@ -1,0 +1,414 @@
+/* BASE */
+html, body {
+
+    /*   Settings   */
+
+    --headerheight: 50px;
+    --ColorHeader: #222222ee;
+    --ColorBG: #fff;
+    --ColorText: rgb(39, 39, 39);
+    --MaxWidth: 700px;
+
+
+    /* ------------ */
+
+    font-family: 'Libre Franklin', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: var(--ColorBG );
+    font-size: 1.2em;
+}
+
+
+/*  CONSTRUCTIN BANNER  */
+
+#construction {
+    background-color: orange;
+}
+
+#construction h1 {
+    font-weight: 300;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#construction p {
+    width:  100%;
+    text-align: center;
+    margin: 0px;
+    padding: 15px;
+}
+
+
+/* */
+
+
+a {
+    text-decoration: none;
+}
+
+header {
+    position: fixed;
+    background-color: var(--ColorHeader);
+    
+    height: 66px;
+    height: var(--headerheight);
+    left: 0px;
+    right: 0px;
+    line-height: 66px;
+    line-height: var(--headerheight);
+
+
+}
+
+
+
+header .toggle {
+    float: left;
+    width: 100%;
+    font-size: 1.5em;
+    color: white;
+    display: none;  
+    height: 66px;
+    height: var(--headerheight);
+}
+
+header .toggle i {
+    cursor: pointer;
+    height: 66px;
+    height: var(--headerheight);
+    width: 50px;
+    text-align: center;
+    line-height: var(--headerheight);
+}
+
+.header_logo {
+    height: 66px;
+    height: var(--headerheight);
+    width: auto;
+    text-align: center;
+    position: fixed;
+    display: block;
+    left: calc(100%/2 - var(--headerheight)/2);
+  
+    
+    margin-top: calc(var(--headerheight) * -1);
+}
+
+.header_logo img {
+    height: 66px;
+    height: var(--headerheight);
+    width: auto;
+}
+
+nav {
+    z-index: 100;
+    height: 66px;
+    height: var(--headerheight);
+}
+header {
+    z-index: 100;
+}
+header ul {
+    float: left;
+    height: 66px;
+    height: var(--headerheight);
+    margin: 0px;
+    padding: 0px;
+    padding-left: 0px;
+}
+header li {
+    list-style-type: none;
+    display: block;
+    float: left;
+    height: 66px;
+    height: var(--headerheight);
+    margin: 0px;
+    padding: 0px;
+    width: 150px;
+}
+
+header li a {
+    font-size: 0.7em;
+    display: block;
+    width: 150px;
+    text-align: center;
+    height: var(--headerheight);
+    
+    color: #fff;
+    
+    transition: all 0.2s ease-in-out;
+    
+}
+
+header li::after {
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: calc(var(--headerheight) * -1 + 10px);
+
+    height: 4px;
+    width: 0px;
+    background-color: rgba(255, 255, 255, 0.616);
+    background-color: #ff2f00;
+    transition: 0.25s all ease-in-out;
+}
+
+header li:hover::after {
+    margin-left: 30px;
+    width: 90px;
+}
+
+
+/*  -----------------  */
+/*  Main Content Area  */
+/*  -----------------  */
+
+main {
+    padding-top: 66px;
+    padding-top: var(--headerheight);
+    
+    margin: 0px auto;
+
+    
+}
+
+.spacer {
+    height: 20px;
+    
+}
+
+.centered {
+    text-align: center;
+}
+
+.card {
+    background-color: var(--Color04);
+    padding: 10px;
+    margin:  0px auto;
+    display: block;
+    color: var(--ColorText);
+    max-width: var(--MaxWidth);
+
+}
+
+.button {
+    text-decoration: none;
+    color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: white solid 2px;
+    text-align: center;
+    transition: all 0.25s ease-in-out;
+}
+
+.button:hover {
+    background-color: white;
+    color: var(--ColorHeader);
+}
+
+#blog-btn {
+    margin-top: 20px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+
+
+#quote {
+    font-size: 1em;
+    font-weight: 300;
+}
+
+#author {
+    margin: 10px 10px;
+    font-size: 0.9em;
+}
+
+#about-me {
+
+    max-width: none;
+    width: 100vw;
+    color: white;
+    background-image: url("/imgs/me.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0px;
+    background-position: 0% 50%;
+}
+
+#about-me-content {
+    color: white;
+    text-align: center;
+}
+
+.visibleSpacer {
+    width: 90%;
+    height: 1px;
+    
+    background-color: white;
+    margin: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.projectContentBox h2 {
+    font-weight: 300;
+    font-size: 1.1em;
+    margin-left: 20px;
+}
+
+.projectContentBox h2::before {
+    content: "> ";
+    font-weight: 400;
+    color: red;
+}
+
+.projectContentBox .more {
+    cursor: pointer;
+    color: var(--ColorText);
+    width: 100%;
+    text-align: right;
+
+}
+
+@keyframes more-anim {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    50% {
+        transform: translate(0px, 10px);
+    }
+
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+.projectContentBox .more:hover i {
+    animation-name: more-anim;
+    animation-duration: 0.4s;
+    animation-iteration-count: infinite;
+
+}
+
+.smallCard-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.smallCard {
+    color: rgb(233, 233, 233);
+    padding: 5px;
+    max-width: 300px;
+    min-width: 150px;
+    margin: 10px;
+    background-color: var(--ColorText);
+    overflow: hidden;
+    position: relative;
+    display: inline;
+    -webkit-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.75);
+    transition: all 0.25s ease-in-out;
+}
+
+
+
+.smallCard:hover {
+    -webkit-box-shadow: 1px 2px 7px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 2px 7px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 2px 7px 0px rgba(0,0,0,0.75);
+}
+
+.smallCard img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(1.4);
+    filter: blur(3px) brightness(0.4);
+    transition: all 0.25s ease-in-out;
+}
+
+.smallCard:hover img {
+    filter: blur(2px) brightness(0.3);
+    transform: scale(1.1);
+}
+
+.smallCard h1 {
+    font-size: 0.7em;
+    font-weight: 400;
+    margin: 5px;
+    display: inline;
+    position: relative;
+}
+
+.smallCard p {
+    margin: 5px;
+    margin-top: 15px;
+    font-size: 0.8em;
+    position: relative;
+}
+
+
+/* RESPONSIVE */
+@media only screen and (max-width: 920px) {
+
+
+    main {
+        overflow: hidden;
+    }
+
+    header .toggle {
+        
+        display: block;  
+    }
+
+
+    header ul {
+        height: 0px;
+        transition: all 0.2s ease-in-out;
+        width: 100%;
+        overflow: hidden;
+        background-color: var(--ColorHeader);
+    }
+
+    header ul li {
+        display: block;
+        float: none;
+        text-align: center;
+        width: 100%;
+    }
+
+    header ul li a {
+        text-align: center;
+        width: 100%;
+    }
+
+    header li:hover::after {
+        margin-left: 0px;
+    }
+
+    .active {
+        height: calc(var(--headerheight) * 3);
+    }
+
+    #about-me {
+        background-attachment: scroll;
+    }
+}
