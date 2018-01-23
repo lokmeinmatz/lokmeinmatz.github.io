@@ -6,4 +6,5 @@ body{
 
 canvas {
   vertical-align: top;
+  cursor: none;
 }
