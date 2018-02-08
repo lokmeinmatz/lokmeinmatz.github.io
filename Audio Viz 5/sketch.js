@@ -1,22 +1,40 @@
+function updateCanvasScale() {
+  let canvasRatio = canvas.width / canvas.height
+  let screenRatio = window.innerWidth / window.innerHeight
+  
+  let canvasstyle = canvas.canvas.style;
+  console.log(canvas)
+  if(canvasRatio < screenRatio) {
+    canvasstyle.height = "100vh";
+    canvasstyle.width = "auto";
+    console.log("height max")
+  }
+  else {
+    canvasstyle.width = "100vw";
+    canvasstyle.height = "auto";
+    console.log("width max")
+  }
 
-function setup() {
-  createCanvas(1800, 1000);
-  let canvasstyle = document.getElementsByTagName("canvas")[0].style;
-  canvasstyle.height = "100vh";
-  canvasstyle.width = "auto";
-  angleMode(DEGREES);
-  console.log("Starting Audio...");
- 
 }
 
+let canvas
+
+
+function setup() {
+  canvas = createCanvas(1800, 1000);
+  updateCanvasScale()
+  angleMode(DEGREES);
+  console.log("Starting program...");
+  
+  
+}
 
 function draw() {
   colorMode(RGB);
-  background(0, 0, 0, 120);
+  background(100);
   colorMode(HSB);
-  noStroke();
+  stroke(255)
 
 
-
-
+ 
 }
