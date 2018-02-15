@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <link rel="icon" href="logo.png">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>NodeChat</title>
+
+
+    <script src="https://use.fontawesome.com/0d2ca9911e.js"></script>
+
+    <link rel="stylesheet" href="client/style.css">
+    <style>
+
+        form { 
+            max-width: 700px;
+            margin: auto;
+            padding-top: 70px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 120px auto;
+
+            
+        }
+
+        input {
+            margin: 10px;
+            height: 30px;
+            border-radius: 5px;
+            border: none;
+            background-color: gray;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        button {
+            width: 100px;
+            height: 35px;
+            border: none;
+            display: block;
+            margin: 10px auto;
+            border-radius: 5px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.2em;
+        }
+
+        button:hover {
+            background-color: mediumseagreen;
+            color: white;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>NodeChat Login</h1>
+
+        
+
+    </header>
+
+    <form action="/login" method="post">
+        <div class="form-grid">
+            <p>Benutzername</p>
+            <input type="text" name="username">
+        
+        
+            <p>Passwort</p>
+            <input type="password" name="password">
+        </div>
+        
+        
+        <button type="submit">LOGIN</button>
+    </form>
+
+    <footer>
+
+    </footer>
+
+</body>
