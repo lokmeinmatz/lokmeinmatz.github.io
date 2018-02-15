@@ -119,7 +119,8 @@ class Session {
         let gameUpdate : GameUpdate = {
             players:[],
             activePlayerID : this.players[this.activePlayerIndex].playerID,
-            direction: true
+            direction: true,
+            handcards: []
         }
 
         gameUpdate.players = Array.from(this.players).map((player) => {return {name:player.playerName, id:player.playerID, cards:player.cards.length}})
