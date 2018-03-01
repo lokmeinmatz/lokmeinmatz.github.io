@@ -45,6 +45,7 @@ var PhysicsObject = /** @class */ (function () {
     };
     PhysicsObject.prototype.intersectsDetailed = function (other) {
         //test against other mesh
+        var allIntersections = [];
         for (var _i = 0, _a = other.mesh.verts; _i < _a.length; _i++) {
             var otherVert = _a[_i];
             //smallest pendepth
@@ -78,9 +79,10 @@ var PhysicsObject = /** @class */ (function () {
             }
             if (nearestSide.normal) {
                 //has found a ipoint
-                return nearestSide;
+                allIntersections.push(nearestSide);
             }
         }
+        return allIntersections;
     };
     PhysicsObject.prototype.update = function (delta) {
         var _this = this;

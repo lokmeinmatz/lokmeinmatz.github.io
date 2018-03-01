@@ -61,19 +61,22 @@ var Rocket = /** @class */ (function (_super) {
         this.engine.pos = this.mesh.verts[4];
         this.applyForce(p5.Vector.fromAngle(this.rotation + PI / 2 + this.engine.angle).mult(-this.engine.strength), this.engine.pos);
         if (ground.intersectsBroad(this)) {
-            console.log("Intersecting");
+            //console.log("Intersecting")
             var result = ground.intersectsDetailed(this);
-            if (result) {
-                console.log(result.pendepth);
+            for (var _i = 0, result_1 = result; _i < result_1.length; _i++) {
+                var res = result_1[_i];
                 fill(200, 255, 100);
-                ellipse(result.point.x, result.point.y, 4);
-                line(result.point.x, result.point.y, result.point.x + result.normal.x * result.pendepth, result.point.y + result.normal.y * result.pendepth);
-                this.position.add(result.normal.copy().mult(result.pendepth));
-                this.applyForce(result.normal.copy().mult(result.pendepth), result.point);
+                ellipse(res.point.x, res.point.y, 4);
+                line(res.point.x, res.point.y, res.point.x + res.normal.x * res.pendepth, res.point.y + res.normal.y * res.pendepth);
+                this.position.add(res.normal.copy().mult(res.pendepth));
+                this.applyForce(res.normal.copy().mult(res.pendepth), res.point);
                 //Draw nearest site
-                var p0 = ground.mesh.verts[result.p0];
-                var p1 = ground.mesh.verts[result.p1];
+                var p0 = ground.mesh.verts[res.p0];
+                var p1 = ground.mesh.verts[res.p1];
                 line(p0.x, p0.y, p1.x, p1.y);
+                //do response
+                var r = void 0;
+                var vap1 = this.velocity.copy().add(createVector(-this.angvelocity));
             }
         }
         _super.prototype.update.call(this, delta);

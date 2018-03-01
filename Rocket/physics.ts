@@ -12,8 +12,8 @@ class PhysicsObject {
   mesh : Mesh
   isStatic
   position : p5.Vector
-  velocity
-  acceleration
+  velocity : p5.Vector
+  acceleration : p5.Vector
   mass
   rotation
   angvelocity
@@ -62,9 +62,10 @@ class PhysicsObject {
     return true
   }
 
-  intersectsDetailed(other : PhysicsObject) : {point : p5.Vector, pendepth: number, normal: p5.Vector, p0: number, p1: number} | void {
+  intersectsDetailed(other : PhysicsObject) : {point : p5.Vector, pendepth: number, normal: p5.Vector, p0: number, p1: number}[] {
 
     //test against other mesh
+    let allIntersections = []
     for(let otherVert of other.mesh.verts) {
       //smallest pendepth
       let nearestSide = {pendepth: Number.POSITIVE_INFINITY, normal: null, point: null, p0 : 0, p1: 0}
@@ -100,12 +101,12 @@ class PhysicsObject {
 
       if(nearestSide.normal) {
         //has found a ipoint
-        return nearestSide
+        allIntersections.push(nearestSide)
       }
 
-      
     }
-
+    
+    return allIntersections
     
   }
 
