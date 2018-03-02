@@ -1,0 +1,196 @@
+let mutationRate = 50;
+
+
+
+let img_raw : p5.Image
+let img_edges_raw : p5.Image
+let img_edges_blurred : p5.Image
+let img_processed : p5.Image
+let array_img : number[]
+let canvas
+let currentGeneration : Generation
+
+let Tgraphics 
+
+function setup() : void {
+    img_raw = loadImage("img1.jpg", () => {
+       
+        resizeCanvas(img_raw.width, img_raw.height)
+        Tgraphics = createGraphics(img_raw.width, img_raw.height)
+        //draw()
+        img_edges_raw = edgeDetection(img_raw)
+        img_processed = multiply(img_edges_raw, img_raw)
+        //draw()
+        //img_edges_blurred = blurOverlay(img_edges_raw)
+        array_img = imgToArray(img_processed)
+        currentGeneration = new Generation()
+    })
+    canvas = createCanvas(100, 100)
+
+}
+const maxLength = 200
+const spacing = 5
+class Gene {
+    public dna : number[]
+    public fitness : number = 0.0
+    constructor(dna?) {
+        if(!dna) {
+            this.dna = []
+            const l = random(20) + 10
+            for(let i = 0; i < l; i++) {
+                //start
+                let y = floor(random(height/spacing)) * spacing
+                let x1 = random(width)
+                let x2 = random(width)
+                if(Math.abs(x1-x2) > maxLength) {
+                    x2 += (x1-x2)*random()
+                }
+
+                this.dna.push(y)
+                this.dna.push(x1)
+                this.dna.push(x2)
+            }
+            console.log("created new dna with "+this.dna.length/3+" elements")
+        }
+        else {
+            this.dna = dna.slice(0)
+
+            //mutate singe values
+            for(let i = 0; i < this.dna.length; i+=3) {
+                if(random() > 0.9) {
+                    this.dna[i] += floor(random(-1, 1)) * spacing
+                }
+                if(random() > 0.9) {
+                    this.dna[i+1] += random(-1 * mutationRate, 1 * mutationRate)
+                }
+                if(random() > 0.9) {
+                    this.dna[i+2] += random(-1 * mutationRate, 1 * mutationRate)
+                }
+
+            }
+
+            //add new
+            if(random() > 0.5 && this.dna.length <= 3000) {
+                //start
+                let y = floor(random(height/spacing)) * spacing
+                let x1 = random(width)
+                let x2 = random(width)
+                if(Math.abs(x1-x2) > maxLength) {
+                    x2 += (x1-x2)*random()
+                }
+
+                this.dna.push(y)
+                this.dna.push(x1)
+                this.dna.push(x2)
+            }
+
+            //remove random 3
+            if(random() > 0.9 && this.dna.length > 40) {
+                const randI = floor(random(this.dna.length/3)) * 3
+                this.dna.splice(randI, 3)
+            }
+        }
+    }
+
+    drawImg() {
+        Tgraphics
+        
+        Tgraphics.background(255)
+        Tgraphics.stroke(0)
+        Tgraphics.strokeWeight(2)
+        for(let i = 0; i < this.dna.length; i+= 3) {
+            Tgraphics.line(this.dna[i+1], this.dna[i], this.dna[i+2],  this.dna[i])
+        }
+        
+    }
+
+    getFitness(original : number[]) {
+        this.drawImg()
+        
+        
+        //calc fitness
+        this.fitness = 0.0
+        Tgraphics.loadPixels()
+        
+        for(let x = 0; x < Tgraphics.width; x+= 2) {
+            for(let y = 0; y < Tgraphics.height; y+= 2) {
+                let co = original[x+y*width]
+                let cla = getPixel(Tgraphics, x, y)
+                let cl = (cla[0]+cla[1]+cla[2])/3
+               
+                let d = Math.abs(co-cl)/255 // between 1 and 0 => 1 == most distant
+                this.fitness += 1 - d
+            }
+        }
+        Tgraphics.updatePixels()
+        return this.fitness
+    }
+}
+
+const popsize = 100
+
+class Generation {
+    population : Gene[]
+    best: Gene = null
+    constructor(oldGen? : Generation) {
+        if(!oldGen) {
+            //first gen
+            this.population = []
+            for(let i = 0; i < popsize; i++) {
+                this.population.push(new Gene())
+            }
+        }
+        else {
+            this.population = []
+            for(let i = 0; i < popsize/2; i++) {
+                this.population.push(new Gene(oldGen.best.dna))
+            }
+            while(this.population.length < popsize - 1) {
+                this.population.push(new Gene(oldGen.population[floor(random(oldGen.population.length))].dna))
+            }
+            this.population.push(oldGen.best)
+        }
+
+        this.calculateFitness()
+    }
+
+    calculateFitness() {
+        let best = {i:0, f:0}
+
+        for(let i = 0; i < this.population.length; i++) {
+            let cf = this.population[i].getFitness(array_img)
+            if(cf > best.f) {
+                best.f = cf
+                best.i = i
+            }
+        }
+        mutationRate = 1000000 / best.f
+        console.log("Highest Fitness: "+best.f+" Mutationrate: "+mutationRate)
+        this.best = this.population[best.i]
+    }
+}
+function keyTyped() {
+    if(key == "s") {
+        saveCanvas("frame", "png")
+    } 
+}
+
+let drawImg = true
+
+function draw() : void {
+    background(30)
+    if(currentGeneration){
+        currentGeneration.best.drawImg()
+        image(Tgraphics, 0, 0)
+        
+        //create new generation
+        currentGeneration = new Generation(currentGeneration)
+    }
+    
+    if(img_processed && drawImg) {
+        image(img_processed, 0, 0)
+    }
+    else if(img_raw && drawImg) {
+        image(img_raw, 0, 0)
+    }
+}
