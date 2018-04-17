@@ -102,8 +102,8 @@ class Neuron {
     }
 
     activate(latest) {
-        if(latest) this.out = 1 / (1 + Math.pow(Math.E, -this.in))
-        //if(latest) this.out = this.in
+        //if(latest) this.out = 1 / (1 + Math.pow(Math.E, -this.in))
+        if(latest) this.out = Math.min(Math.max(this.in, 0), 1)
         else this.out = Math.max(0, this.in)
     }
 }
