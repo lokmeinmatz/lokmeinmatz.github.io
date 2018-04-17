@@ -101,8 +101,9 @@ class Neuron {
         }
     }
 
-    activate() {
-        this.out = 1 / (1 + Math.pow(Math.E, -this.in))
+    activate(latest) {
+        if(latest) this.out = 1 / (1 + Math.pow(Math.E, -this.in))
+        else this.out = Math.max(0, this.in)
     }
 }
 class Layer {
@@ -130,11 +131,11 @@ class Layer {
         return res
     }
 
-    process(outPrev) {
+    process(outPrev, latest) {
         let outs = []
         for(let i = 0; i < this.neurons.length - 1; i++) {
             this.neurons[i].calcIn(outPrev)
-            this.neurons[i].activate()
+            this.neurons[i].activate(latest)
             outs.push(this.neurons[i].out)
         }
         return outs
@@ -178,7 +179,7 @@ class Network {
         }
         prevOut.push(1) //BIAS
         for(let lay = 1; lay < this.layers.length; lay++) {
-            prevOut = this.layers[lay].process(prevOut)
+            prevOut = this.layers[lay].process(prevOut, lay == this.layers.length - 1)
             prevOut.push(1) //BIAS
             
         }

@@ -11,6 +11,10 @@ let mutRate = 0.01
 
 let lastData = {fitness: 0.0, mutRate: 0.01}
 
+let guess = 0
+let avgOut = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+let fittestOut = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
 function setup() {
   createCanvas(1800, 900);
   background(50)
@@ -32,7 +36,8 @@ function drawRandom() {
   currentGraphic.text(rnum.toString(), 50 + random(30), 220 + random(30))
   let res = evaluateAll(rnum)
   guess = res[0]
-  dist = res[1]
+  avgOut = res[1]
+  fittestOut = res[2]
   reset(nets)
 }
 
@@ -111,23 +116,35 @@ function evaluateAll(target) {
   //returns most guessed number
   let totalOut = []
   for(let i = 0; i < 10; i++) {totalOut.push(0.0)}
+  
+  //the wished output
+  let expectedOut = []
+  for(let i = 0; i < 10; i++) {expectedOut.push(0.0)}
+  expectedOut[target] = 1.0
+
+  let bestOut = []
+  let bestFitness = 0.0
+  for(let i = 0; i < 10; i++) {bestOut.push(0.0)}
+
+
   for(let net of nets) {
     let out = net.process(input)
-    //for fitness: get guess
-    let hightest = 0
-    let hightestIndex = 0
-    for(let i = 0; i < 10; i++) {
-      totalOut[i] += out[i]
-
-      if(out[i] > hightest) {
-        hightest = out[i]
-        hightestIndex = i
-      }
-    }
-
+    
     if(target) {
       
-      net.fitness = out[target]
+      let error = 0.0
+      
+      for(let i = 0; i < expectedOut.length; i++) {
+        totalOut[i] += out[i]
+        error += Math.pow(out[i] - expectedOut[i], 2)
+      }
+      
+      net.fitness = 1 / (error + 1)
+
+      if(net.fitness > bestFitness) {
+        bestFitness = net.fitness
+        bestOut = out
+      }
       
       
     }
@@ -143,7 +160,7 @@ function evaluateAll(target) {
     }
   }
 
-  return [hightestIndex, totalOut]
+  return [hightestIndex, totalOut, bestOut]
 }
 
 
@@ -156,8 +173,6 @@ class PopulationInfo {
     this.Worst = Worst
   }
 }
-let guess = 0
-let dist = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 function draw() {
 
@@ -235,8 +250,11 @@ function draw() {
     
     text(i.toString(), tlx + nSize*0.4, 160)
 
-
-    rect(tlx, 120+nSize, nSize, dist[i]*5)
+    //avg
+    rect(tlx, 120+nSize, nSize / 2, avgOut[i]*5)
+    
+    //best
+    rect(tlx, 120+nSize*1.5, nSize / 2, fittestOut[i]*5)
   }
   
   if(drawInfos && history.length > 1) {
