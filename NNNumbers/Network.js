@@ -103,6 +103,7 @@ class Neuron {
 
     activate(latest) {
         if(latest) this.out = 1 / (1 + Math.pow(Math.E, -this.in))
+        //if(latest) this.out = this.in
         else this.out = Math.max(0, this.in)
     }
 }
@@ -153,6 +154,14 @@ class Network {
         }
     }
 
+    softmax(array) {
+        //create exp array
+        const aExp = array.map(x => Math.exp(x))
+        const sumAExp = aExp.reduce((acc, curr) => acc + curr)
+        if(sumAExp == NaN) debugger
+        return aExp.map(x => x / sumAExp)
+    }
+
     randomize(amount) {
         for (let l = 0; l < this.layerCount; l++) {
             this.layers[l].randomize(amount)
@@ -179,7 +188,8 @@ class Network {
         }
         prevOut.push(1) //BIAS
         for(let lay = 1; lay < this.layers.length; lay++) {
-            prevOut = this.layers[lay].process(prevOut, lay == this.layers.length - 1)
+            const last = lay == this.layers.length - 1
+            prevOut = this.layers[lay].process(prevOut, last)
             prevOut.push(1) //BIAS
             
         }
@@ -190,7 +200,12 @@ class Network {
           
             finalOut.push(this.layers[this.layerCount - 1].neurons[i].out)
         }
-        return finalOut
+
+        //use softmax at the end
+        //finalOut = this.softmax(finalOut)
+        // console.log("raw", finalOut)
+        // console.log("soft", this.softmax(finalOut))
+        return this.softmax(finalOut)
     }
 }
 

@@ -18,6 +18,7 @@ let fittestOut = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 function setup() {
   createCanvas(1800, 900);
   background(50)
+  pixelDensity(1)
   let canvasstyle = document.getElementsByTagName("canvas")[0].style;
   canvasstyle.height = "100vh";
   canvasstyle.width = "auto";
@@ -37,7 +38,7 @@ function drawRandom() {
   let res = evaluateAll(rnum)
   guess = res[0]
   avgOut = res[1]
-  fittestOut = res[2]
+  if(res[2]) fittestOut = res[2]
   reset(nets)
 }
 
@@ -50,9 +51,10 @@ function reset(oldNets) {
     }
   }
   else {
+    console.log(oldNets)
     nets = []
     let totalFitness = oldNets.reduce((total, current) => total + current.fitness, 0)
-    mutRate = 1 / (totalFitness + 5)
+    mutRate = 0.0
     console.log(totalFitness)
     lastData.fitness = totalFitness
     lastData.mutRate = mutRate
@@ -66,7 +68,9 @@ function reset(oldNets) {
       if(winnerIndex < 0)winnerIndex = 0
 
       let newNet = oldNets[winnerIndex].copy()
-      if(random(100) < 95)newNet.randomize(mutRate)
+      const cMutRate = 1 / (oldNets[winnerIndex].fitness + 10)
+      mutRate += cMutRate / POPsize
+      if(random(100) < 90)newNet.randomize(cMutRate)
       else newNet.randomize(0.5)
       nets.push(newNet)
     }
@@ -130,16 +134,20 @@ function evaluateAll(target) {
   for(let net of nets) {
     let out = net.process(input)
     
+    for(let i = 0; i < totalOut.length; i++) {
+      totalOut[i] += out[i] / nets.length
+      
+    }
+
     if(target) {
       
       let error = 0.0
       
       for(let i = 0; i < expectedOut.length; i++) {
-        totalOut[i] += out[i]
-        error += Math.pow(out[i] - expectedOut[i], 2)
+        error += Math.pow(out[i] - expectedOut[i], 2) * ((i == target)?4.0:1.0)
       }
       
-      net.fitness = 1 / (error + 1)
+      net.fitness = 1 / (error + 1) 
 
       if(net.fitness > bestFitness) {
         bestFitness = net.fitness
@@ -160,7 +168,9 @@ function evaluateAll(target) {
     }
   }
 
-  return [hightestIndex, totalOut, bestOut]
+  console.log(totalOut)
+
+  return [hightestIndex, totalOut, target?bestOut:null]
 }
 
 
@@ -178,7 +188,7 @@ function draw() {
 
   if(autoTrain && clickCoolDown < 0) {
     drawRandom()
-    clickCoolDown = 20
+    clickCoolDown = 10
   }
 
   clickCoolDown --
@@ -201,7 +211,7 @@ function draw() {
   else if(newDrawn) {
       let res = evaluateAll()
       guess = res[0]
-      dist = res[1]
+      avgOut = res[1]
       newDrawn = false
   }
   
@@ -213,13 +223,15 @@ function draw() {
 
   
   text("Guess: "+guess.toString(), 320, 160)
-
+  
   text("Right number:", 500, 160)
-
-
+  
+  
   text("Fitness: "+lastData.fitness.toFixed(3)+"  MutRate: "+lastData.mutRate.toFixed(3), 320, 400)
-
+  
   const nSize = 60
+  const yScale = 1000
+
   for(let i = 0; i < 10; i++) {
     let tlx = 700 + i * nSize
     if(mouseX > tlx && mouseX < tlx + nSize && mouseY > 120 && mouseY < 120 + nSize) {
@@ -235,7 +247,8 @@ function draw() {
         clickCoolDown = 20
         let res = evaluateAll(i)
         guess = res[0]
-        dist = res[1]
+        avgOut = res[1]
+        if(res[2]) fittestOut = res[2]
         reset(nets)
       }
     }
@@ -251,10 +264,12 @@ function draw() {
     text(i.toString(), tlx + nSize*0.4, 160)
 
     //avg
-    rect(tlx, 120+nSize, nSize / 2, avgOut[i]*5)
+
+    rect(tlx, 120+nSize, nSize / 2, avgOut[i] * yScale)
     
     //best
-    rect(tlx, 120+nSize*1.5, nSize / 2, fittestOut[i]*5)
+    fill(255, 200, 150)
+    rect(tlx + 0.5 * nSize, 120+nSize, nSize / 2, fittestOut[i] * yScale)
   }
   
   if(drawInfos && history.length > 1) {
