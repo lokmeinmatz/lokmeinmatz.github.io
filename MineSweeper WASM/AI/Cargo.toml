@@ -1,0 +1,6 @@
+[package]
+name = "AI"
+version = "0.1.0"
+authors = ["lokmeinmatz <matze.kind@web.de>"]
+
+[dependencies]

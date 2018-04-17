@@ -68,6 +68,7 @@ function cell(){
   this.discovered = false;
   this.state = 0;
   this.flag = false;
+  this.prob = 0.0
 }
 
 function generateMap()
@@ -82,7 +83,7 @@ function generateMap()
 
   }
   //generate bombs
-  bombcount = difficulty + int(random(11)) - 5;
+  bombcount = difficulty;
   console.log("Bomben im Spiel: "+bombcount);
   for (var i = 0; i < bombcount; i++){
     while(true){
@@ -208,7 +209,19 @@ function draw() {
         }
       }
     }
+
+    
+
     calcCellsToDiscover();
+
+    if(CellsToDiscover < f_height * f_height - 3) {
+      const probMap = getBestSolution()
+      for(let x = 0; x < f_width; x++) {
+        for(let y = 0; y < f_height; y++) {
+          field[x][y].prob = probMap[y * f_width + x]
+        }
+      }
+    }
     if(CellsToDiscover - bombcount <= 0){
      
       woncounter = 100;
@@ -218,6 +231,10 @@ function draw() {
 
 
   drawField();
+
+  //calc Probabilities
+  
+  
   
   if(woncounter > 0){
     textSize(60);
@@ -279,6 +296,9 @@ function drawField(){
           fill("#3498db");
           ellipse(x * cell_w + (cell_w / 2), y * cell_h + (cell_h/2) + y_offset, 40, 40);
         }
+
+        fill(255)
+        text(field[x][y].prob * 100, x*cell_w + cell_spacing + 10, y*cell_h + y_offset + cell_spacing + 30)
 
       }
       else{
