@@ -37,6 +37,8 @@ declare function strokeWeight(weight: number) : void
 
 declare function color(r: number, g?: number, b?:number) : p5.Color
 
+declare function noise(x: number, y: number) : number
+
 declare function vertex(x: number, y: number) 
 
 declare function endShape(opt?: number)
