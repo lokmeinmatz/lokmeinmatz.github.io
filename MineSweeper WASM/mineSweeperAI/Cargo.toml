@@ -1,9 +1,0 @@
-[package]
-name = "mineSweeperAI"
-version = "0.1.0"
-authors = ["lokmeinmatz <matze.kind@web.de>"]
-
-[dependencies]
-
-[lib]
-crate-type = ["cdylib"]
