@@ -1,9 +1,3 @@
-let debug = true
-
-function setup() {
-  noCanvas()
-  init()
-}
 
 
 
@@ -12,24 +6,28 @@ function setup() {
 const scene = new THREE.Scene()
 
 
-let particles = []
-let missiles = []
-let counterMissiles = []
-let explosions = []
-let missileMap
+/**
+ * 
+ * @description Maps val from range a-b to c-d
+ * 
+ * @param {number} val 
+ * @param {number} a 
+ * @param {number} b 
+ * @param {number} c 
+ * @param {number} d 
+ */
+function map(val, start1, stop1, start2, stop2) {
+  return (val - start1) / (stop1 - start1) * (stop2 - start2) + start2;
+}
 
 
 
-let ground
-let cities = []
-let ambs = []
-let cooldown = 0
 
 function windowResized() {
   let canvasstyle = document.getElementsByTagName("canvas")[0].style;
   let windowRatio = window.innerwidth / window.innerheight
   let canvasRatio = width / height
-  if(windowRatio < canvasRatio) {
+  if (windowRatio < canvasRatio) {
     canvasstyle.width = "100vw";
     canvasstyle.height = "auto";
   }
@@ -39,232 +37,112 @@ function windowResized() {
   }
 }
 
-const width = 400*2
-const height = 300*2
+const width = 400 * 2
+const height = 300 * 2
 
 
 var cam, renderer
 
-const TexMap = new Map()
 
-let PreviewSprite = new THREE.Sprite(new THREE.SpriteMaterial())
 
-PreviewSprite.scale.set(300, 300, 1)
-PreviewSprite.position.set(width/2, height/2, 3)
-function EnablePreview(name) {
-  scene.add(PreviewSprite)
-  PreviewSprite.material.map = TexMap.get(name)
+function generateMountains(scale) {
+  let THREEgeometry = new THREE.Geometry()
+  THREEgeometry.faceVertexUvs = [[]]
+
+  for (let i = 0; i < 10; i++) {
+    THREEgeometry.vertices.push(new THREE.Vector3(i * scale, Math.random() * scale + scale, 0))
+    THREEgeometry.vertices.push(new THREE.Vector3(i * scale, 0, 0))
+
+    if (i > 0) {
+      let fi = i * 2 - 2
+
+      //create first face (0, 1, 2)
+      THREEgeometry.faces.push(new THREE.Face3(fi + 0, fi + 1, fi + 2))
+
+      //create second face (1, 3, 2)
+      THREEgeometry.faces.push(new THREE.Face3(fi + 1, fi + 3, fi + 2))
+
+      //tri 1
+      const uvScale = 2
+
+
+      //get vectors
+      let thisTop = THREEgeometry.vertices[fi + 2]
+      let thisBot = THREEgeometry.vertices[fi + 3]
+      let lastTop = THREEgeometry.vertices[fi + 0]
+      let lastBot = THREEgeometry.vertices[fi + 1]
+
+      let thisX = map(thisTop.x, 0, width, 0, 1) * uvScale
+      let thisY = map(thisTop.y, 0, width, 0.0, 1.0) * uvScale
+      let lastX = map(lastTop.x, 0, width, 0, 1) * uvScale
+      let lastY = map(lastTop.y, 0, width, 0.0, 1.0) * uvScale
+
+
+
+      //test
+      //thisY = 0
+      //lastY = 0
+
+      THREEgeometry.faceVertexUvs[0].push([
+        new THREE.Vector2(lastX, lastY),
+        new THREE.Vector2(lastX, 0),
+        new THREE.Vector2(thisX, thisY)
+      ])
+
+      //tri 2
+
+      THREEgeometry.faceVertexUvs[0].push([
+        new THREE.Vector2(lastX, 0),
+        new THREE.Vector2(thisX, 0),
+        new THREE.Vector2(thisX, thisY)
+      ])
+    }
+  }
+
+  
+  let THREEobj = new THREE.Mesh(THREEgeometry, new THREE.MeshBasicMaterial({}))
+  THREEobj.position.z = -100
+  THREEobj.position.x = -4.5 * scale
+  THREEobj.position.y = - scale
+  //this.THREEobj = new THREE.Mesh(THREEgeometry, new THREE.PointsMaterial())
+  scene.add(THREEobj)
+  
+  
+  THREEobj.material.transparent = true
+  THREEobj.material.map = gradTexture
+  THREEobj.material.depthWrite = false
+  THREEobj.material.flatShading = true
+  THREEobj.material.premultipliedAlpha = true
+  console.log(THREEobj.material)
+  //THREEobj.material.alphaTest = 0.1
+  //THREEobj.material.map = new THREE.TextureLoader().load("imgs/dirt.jpg");
+  //THREEobj.material.map.wrapS = this.THREEobj.material.map.wrapT = THREE.RepeatWrapping;
+  return THREEobj
 }
 
-function DisablePreview() {
-  scene.remove(PreviewSprite)
-}
+window.onload = init
 
+
+let gradTexture = new THREE.TextureLoader().load( "grad.png" )
 function init() {
 
-
-
-  //LOAD TEXTURES
-  TexMap.set("city", new THREE.TextureLoader().load( "imgs/city.png" ))
-  TexMap.set("amb_base", new THREE.TextureLoader().load( "imgs/amb_base.png" ))
-  TexMap.set("amb_gun", new THREE.TextureLoader().load( "imgs/amb_gun.png" ))
-  TexMap.set("missile", new THREE.TextureLoader().load( "imgs/missile.png" ))
-  TexMap.set("antiMissile", new THREE.TextureLoader().load( "imgs/antiMissile.png" ))
-  TexMap.set("particle", new THREE.TextureLoader().load( "imgs/smoke.png" ))
-  TexMap.set("explosion", new THREE.TextureLoader().load( "imgs/explosion.png" ))
-
-
-
-  TexMap.set("cursor", new THREE.TextureLoader().load( "imgs/cursor.png" ))
-  TexMap.set("cursor_aim", new THREE.TextureLoader().load( "imgs/cursor_aim.png" ))
-  
-
   //TODO replace with background
-  scene.background = new THREE.Color(0.5, 0.5, 0.5)
+  scene.background = new THREE.Color(0, 0, 0)
 
-  cam = new THREE.OrthographicCamera(0, width, height, 0, 0.1, 1000)
-  cam.position.z += 10
+
+  cam = new THREE.PerspectiveCamera(70, width / height, 0.1, 1000)
   renderer = new THREE.WebGLRenderer()
   renderer.setSize(width, height)
-  angleMode(RADIANS)
-  document.body.appendChild(renderer.domElement) 
-
+  document.body.appendChild(renderer.domElement)
 
   windowResized()
-  
-  
-  
-  ground = new Ground()
-
-  //populate cities
-  for(let i = 0; i < 6; i++) {
-    let i_n = i + 2
-    if( i >= 3) {i_n += 2}
-    let xpos = map(i_n, 0, 11, 0, width) //wrong way -> clustered cities
-    //Raycast to get terrain height
-    let rcast = getClosestIntersection(new Line(createVector(xpos, 0), createVector(0, 1)), ground.cmesh)
-    let ypos = rcast.intersect.y + 20
-    cities[i] = new City(createVector(xpos, ypos))
-  }
-
-  //populate AMBs
-  for(let i = 0; i < 3; i++) {
-    let xpos = 0
-    switch (i) {
-      case 0:
-          xpos = ground.cmesh.points[5].x
-        break;
-
-      case 1:
-        xpos = ground.cmesh.points[25].x
-        break;
-
-      case 2:
-        xpos = ground.cmesh.points[45].x
-        break;
-    
-      default:
-        break;
-    }
-
-
-    //Raycast to get terrain height
-    let rcast = getClosestIntersection(new Line(createVector(xpos, 0), createVector(0, 1)), ground.cmesh)
-    let ypos = rcast.intersect.y + 3
-    ambs[i] = new AMB(createVector(xpos, ypos))
-
-    
-  }
-
-  missileMap = createGraphics(width, height)
-
-  cursorSprite = new THREE.Sprite(new THREE.SpriteMaterial({map:TexMap.get("cursor")}))
-  cursorSprite.scale.set(32, 32, 1)
-  scene.add(cursorSprite)
-
-  cursorAimSprite = new THREE.Sprite(new THREE.SpriteMaterial({map:TexMap.get("cursor_aim")}))
-  cursorAimSprite.scale.set(32, 32, 1)
-  scene.add(cursorAimSprite)
 
   update()
 }
 
-let cursorSprite, cursorAimSprite
-
-let remainingMissiles = 1
 
 function update() {
 
-  if(remainingMissiles > 0 && frameCount % 200 == 0) {
-    missiles.push(new Missile(1.5))
-    remainingMissiles --
-  }
-
-  //input
-  //TODO countdown
-  cooldown --
-  let mouseVec = createVector(Mouse.x, Mouse.y)
-  mouseVec.y = constrain(mouseVec.y, 200, height)
-  if(mouseIsPressed && cooldown <= 0) {
-    cooldown = 50
-    //get closest amb
-    let cambi = 0
-    for(let i = 0; i < 3; i++) {
-      if(p5.Vector.dist(mouseVec, ambs[i].pos) < p5.Vector.dist(mouseVec, ambs[cambi].pos) && ambs[i].missiles > 0) {
-        cambi = i
-      }
-    }
-    if(ambs[cambi].missiles <= 0) {return}
-    //fire from closest
-    ambs[cambi].missiles --
-    counterMissiles.push(new CounterMissile(ambs[cambi].gunPos.copy(), mouseVec.copy(), 0.2))
-  }
-  
-  background(100, 150, 255);
-
-  //TODO image(missileMap, 0, 0, width, height)
-
-  
-
-  //Draw cities
-  for(let city of cities) {
-    city.draw()
-  }
-
-
-  //draw Particles
-  for(let i = 0; i < particles.length; i++) {
-    particles[i].draw()
-    if(particles[i].age > particles[i].lifetime) {
-      scene.remove(particles[i].sprite)
-      particles.splice(i, 1)
-      i--
-    }
-  }
-
-  //draw Missiles
-  for(let i = 0; i < missiles.length; i++) {
-    missiles[i].draw()
-    if(missiles[i].destroyed) {
-      missiles[i].remove()
-      missiles.splice(i, 1)
-      i--
-    }
-  }
-  
-  for(let amb of ambs) {
-    amb.draw(mouseVec)
-  }
-
- 
-
-  for(let i = 0; i < counterMissiles.length; i++) {
-    counterMissiles[i].draw()
-    if(counterMissiles[i].exploded) {
-      counterMissiles[i].remove()
-      counterMissiles.splice(i, 1)
-      i--
-    }
-  }
-
-  //draw Explosions
-  for(let i = 0; i < explosions.length; i++) {
-    explosions[i].draw()
-
-    //check collisions of missiles with explosion
-    for(let j = 0; j < missiles.length; j++) {
-      if(p5.Vector.dist(missiles[j].pos, explosions[i].pos) < explosions[i].radius) {
-        //delete missile
-        missiles[j].remove()
-        missiles.splice(j, 1)
-        j--
-      }
-    }
-
-    if(explosions[i].time > explosions[i].lifetime*2) {
-      explosions[i].remove()
-      explosions.splice(i, 1)
-      i--
-    }
-  }
-
-  
-
-  //UI
-  fill(255)
-  noStroke()
-  textSize(10)
-
-  text(frameRate().toFixed(2).toString(), 15, 40)
-  if(frameRate() > 1 && frameRate() < 200) {
-    dt = 1 / frameRate()
-  }
-
-
-  //Draw custom cursor
-  cursorSprite.position.set(Mouse.x, Mouse.y, 3)
-
-  cursorAimSprite.position.set(mouseVec.x, mouseVec.y, 3)
 
   renderer.render(scene, cam)
 
