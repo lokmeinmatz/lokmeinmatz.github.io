@@ -1,47 +1,104 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Demo</title>
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
-    <script src="three.js"></script>
-    <script src="sketch.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style type="text/css">
-      html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        padding: 0px;
-        background-color: #222;
-        overflow: hidden; /*  Disable scrollbars */
-        display: block;  /* No floating content on sides */
-      }
 
-      html {
-        margin: 0px;
-        padding: 0px;
-      }
+<head>
+  <title>Demo</title>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+  <script src="three.js"></script>
+  <script src="threeHelper.js"></script>
+  <script src="sketch.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style type="text/css">
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      padding: 0px;
+      background-color: #222;
+      overflow: hidden;
+      /*  Disable scrollbars */
+      display: block;
+      /* No floating content on sides */
+    }
 
-      canvas {
-        
+    html {
+      margin: 0px;
+      padding: 0px;
+    }
 
-        image-rendering: optimizeSpeed;
-        /* Older versions of FF          */
-        image-rendering: -moz-crisp-edges;
-        /* FF 6.0+                       */
-        image-rendering: -webkit-optimize-contrast;
-        /* Safari                        */
-        image-rendering: -o-crisp-edges;
-        /* OS X & Windows Opera (12.02+) */
-        image-rendering: pixelated;
-        /* Awesome future-browsers       */
-        -ms-interpolation-mode: nearest-neighbor;
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      
+      display: block;
+      margin: auto;
+    }
+  </style>
 
-        display: block;
-        margin: auto;
-      }
-    </style>
-  </head>
-  <body>
-  </body>
+  <script id="vertex" type="x-shader/x-vertex">
+    /**
+     * Multiply each vertex by the
+     * model-view matrix and the
+     * projection matrix (both provided
+     * by Three.js) to get a final
+     * vertex position
+     */
+     varying vec2 UVcoords;
+     varying vec3 pos;
+
+    void main() {
+      UVcoords = uv;
+      gl_Position = projectionMatrix *
+      modelViewMatrix *
+      vec4(position, 1.0);
+      pos = normalMatrix * gl_Position.xyz;
+    }
+  </script>
+
+  <script id="fragment" type="x-shader/x-fragment">
+    /**
+ * Set the colour to a lovely pink.
+ * Note that the color is a 4D Float
+ * Vector, R,G,B and A and each part
+ * runs from 0.0 to 1.0
+ */
+    varying vec2 UVcoords;
+    varying vec3 pos;
+
+    float distMap(float x) {
+      //return 1.0;
+      return -4.0 * (x - sqrt(x)) - 0.00;
+    }
+
+    float alphaMap(float x) {
+      //x = x*2.0 - 0.5;
+      // from https://gist.github.com/gre/1650294
+      if(x < 0.5) return 2.0*x*x * 1.1;
+
+      return (-1.0+(4.0-2.0*x)*x) * 1.1;
+    }
+
+    void main() {
+
+      //transparency based on distance
+      
+      float transp = distance(cameraPosition, pos) / 400.0;
+      transp = clamp(distMap(transp), 0.0, 1.0);
+
+      //combine with UVcoords.y
+      transp = alphaMap(UVcoords.y * transp);
+      float factor = clamp((UVcoords.y - 0.995) * 10000.0, 0.0, 1.0);
+
+      //float transp = 0.4;
+
+    gl_FragColor = vec4(mix(0.85, 1.0, factor) * transp, mix(0.65, 1.0, factor) * transp, mix(0.3, 1.0, factor) * transp, 1.0); // A
+    //gl_FragColor = vec4(transp, transp, transp, 1.0); // A
+    }
+  </script>
+</head>
+
+<body>
+</body>
+
 </html>
