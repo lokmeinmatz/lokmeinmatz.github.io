@@ -4,10 +4,51 @@
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
     <style> body {padding: 0; margin: 0; overflow: hidden; background-color: rgb(40, 40, 40);}
     canvas {margin: auto; display: block;}
+
+      .generating {
+        
+        margin-top: 50px;
+        display: flex;
+        position: fixed;
+        width: 100%;
+        justify-content: center;
+        
+      }
+
+      .invisible {
+        display: none;
+      }
+
+      .generating p {color: white; margin-right: 10px;}
+      
+      @keyframes spin {
+        from{
+          transform: rotate(0deg);
+        }
+        to{
+          transform: rotate(360deg);
+        }
+      }
+
+      .generating .spinner {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border: 3px gray solid;
+        border-bottom-color: white;
+        border-radius: 50%;
+        animation: spin 0.5s linear infinite;
+      }
      </style>
     <script src="p5.js"></script>
     <script src="sketch.js"></script>
   </head>
   <body>
+
+
+    <div id="wait" class="generating invisible">
+      <p>Generating</p>
+      <div class="spinner"></div>
+    </div>
   </body>
 </html>

@@ -57,6 +57,10 @@ declare function dist(x1?: number, y1?: number, z1?: number, x2?: number, y2?: n
 
 declare function floor(val: number) : number
 
+declare function round(val: number) : number
+
+declare function map(val: number, l1 : number, h1 : number, l2 : number, h2 : number) : number
+
 declare function frameRate(val? : number) : number
 
 declare var width : number
@@ -76,7 +80,9 @@ declare module p5 {
         public static cross(v1 : p5.Vector, v2 : p5.Vector) : p5.Vector;
         public static dot(v1 : p5.Vector, v2 : p5.Vector) : number;
         public static random2D() : p5.Vector
+        public static random3D() : p5.Vector
         public static fromAngle(angle : number) : p5.Vector
+        public static lerp(v1, v2, val) : p5.Vector
         //instance
         copy() : p5.Vector;
         mult(factor: number) : p5.Vector

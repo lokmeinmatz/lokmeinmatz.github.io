@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <HelloWorld/>
+    <Side/>
     <PlayerBar/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Side from './components/Side'
 import PlayerBar from './components/PlayerBar'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    Side,
     PlayerBar
   }
 }
@@ -22,6 +22,7 @@ export default {
 body {
   margin: 0px;
   padding: 0px;
+  --side-width: 300px;
 }
 
 #app {
@@ -38,5 +39,8 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: var(--side-width) auto;
+  grid-template-rows: auto 100px;
 }
 </style>

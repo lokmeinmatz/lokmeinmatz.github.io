@@ -5,16 +5,10 @@ const express = require("express")
 const app = express()
 const server : Http2Server = require("http").createServer(app)
 const socketIO = require("socket.io")
+const jwt = require('jsonwebtoken')
 
-//init express session so socket io can use it
-const sessions = require("express-session")({
-    secret: "sdgjisdjkghsdghsdlghsdgsdlgbsldhflsgj",
-    resave: false,
-    saveUninitialized: true
-})
 const bodyParser = require("body-parser")
 const hash = require("crypto");
-const sioExpress = require("express-socket.io-session")
 const io = socketIO.listen(server)
 
 
@@ -43,11 +37,7 @@ console.log("server listening on port "+server.address().port)
 app.use("/client", express.static("client"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(sessions )
 
-io.use(sioExpress(sessions, {
-    autoSave:true
-})); 
 
 // route for Home-Page
 app.get('/', (req, res) => {
@@ -82,15 +72,11 @@ app.post("/login", (req, res) => {
         if(hashedPW === user[1][1]) {
             //login sucessfull
             console.log("correct: user "+username+" is logged in")
-            req.session.uid = user[0]
-            
+            users.set(uid, new User(uid, userData.get(uid)[0]))
+            const token = jwt.sign({})
         }
-        else {
-        }
-    }
-    res.redirect("/redirects")
-
-    
+        
+    }    
 })
 
 app.get("/redirects", (req, res) => {
@@ -109,7 +95,7 @@ app.get("/chat", (req, res) => {
     }
     res.sendFile((__dirname + "/client/index.html"))
     //Get session uid
-    users.set(uid, new User(uid, userData.get(uid)[0]))
+    
     //add user so socket can identify him
 })
 
@@ -121,7 +107,6 @@ io.sockets.on("connection", (socket : SocketIO.Socket) => {
     let user : User
     socket.once("login", (data) => {
         //get uid from session
-        const uid = socket.handshake.session.uid
         user = users.get(uid)
         user.socket = socket
         console.log(uid+" connected | total usercount: "+users.size)

@@ -78,10 +78,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .playerBar {
-  max-height: 100px;
-  width: 100vw;
-  position: absolute;
-  bottom: 0px;
+  grid-row: 2;
+  grid-column: 1 / 3;
   display: flex;
   background: rgb(118, 35, 242);
   background: linear-gradient(
@@ -90,9 +88,7 @@ export default {
     rgba(35, 242, 204, 1) 100%
   );
 
-  -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
+
 }
 
 .songCover {
@@ -156,6 +152,7 @@ h2 {
   border: 2px solid rgba(255, 255, 255, 0.3);
   transition: all 0.1s ease-in-out;
   color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
 }
 
 .controlButton:hover {
