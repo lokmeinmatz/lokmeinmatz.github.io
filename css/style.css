@@ -20,6 +20,8 @@ header {
   padding: 0px;
   background: rgb(42,157,143);
   background: linear-gradient(135deg, rgba(42,157,143,1) 0%, rgba(244,162,97,1) 100%);
+  background-image: url('/imgs/beach.jpg');
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
