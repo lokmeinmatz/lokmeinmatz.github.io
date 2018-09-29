@@ -1,0 +1,21 @@
+.terminal, body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.terminal p {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  justify-self: stretch;
+  align-self: stretch;
+  text-align: center;
+  justify-content: center;
+  align-items:center;
+  font-family: 'Courier New', Courier, monospace;
+}
