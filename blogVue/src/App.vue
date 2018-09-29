@@ -12,6 +12,10 @@
 import Header from './components/Header.vue'
 import BlogOverview from './components/BlogOverview.vue'
 import BlogView from './components/BlogView.vue'
+import RecursiveBlogListEntry from './components/RecursiveBlogListEntry.vue'
+import Vue from 'vue'
+Vue.component('RecursiveBlogListEntry', RecursiveBlogListEntry)
+
 export default {
   name: 'app',
   components: {

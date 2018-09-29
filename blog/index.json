@@ -2,5 +2,13 @@
   {
     "title" : "WhoAmI",
     "URL" : "/blog/whoami"
+  },
+  {
+    "title" : "Hallo/01",
+    "URL" : "/blog/whoami"
+  },
+  {
+    "title" : "Hallo/03",
+    "URL" : "/blog/whoami"
   }
 ]

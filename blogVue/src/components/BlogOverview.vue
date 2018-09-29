@@ -1,21 +1,66 @@
 <template>
   <div class="blogoverview" :style="{width: width}" @mouseover="expanded = true" @mouseout="expanded = false">
-    
+    <RecursiveBlogListEntry :blogsubtree="subtree" v-for="subtree in blogs" :key="subtree.title"></RecursiveBlogListEntry>
   </div>
 </template>
 
 <script>
+
+import RecursiveBlogListEntry from './RecursiveBlogListEntry.vue'
+
 export default {
   name: 'BlogOverview',
+  components: {
+    RecursiveBlogListEntry
+  },
   data() {
     return {
-      expanded: true
+      expanded: true,
+      blogs: []
     }
   },
   computed: {
     width() {
       return this.expanded ? '500px' : '200px'
     }
+  },
+  methods: {
+    getBlogList() {
+      fetch('https://lokmeinmatz.github.io/blog/index.json')
+      .then(r => r.json())
+      .then(j => {
+        console.log('Parsing Blog List...')
+        this.blogs = []
+        //restructure j to "tree"
+        for(let blog of j) {
+          //Structure: {"title" : cat/title,"URL" : url}
+          let path = blog.title.split('/')
+          console.log(path)
+          let currentLayer = this.blogs
+          for(let subPath of path) {
+            let elmt = currentLayer.find(e => e.title == subPath)
+            let blogPage = subPath == path[path.length - 1]
+            if(!elmt) {
+              //create object
+              let lObject = {title: subPath, url: blogPage ? blog.URL : '', children: []}
+              currentLayer.push(lObject)
+              elmt = lObject
+            }
+            else if(blogPage) {
+              //allready exists, but no url info
+              elmt.URL = blog.URL
+            }
+            currentLayer = elmt.children
+          }
+        }
+        console.log('Finished Parsing')
+        console.log(this.blogs)
+      })
+    }
+  },
+
+  mounted() {
+    this.getBlogList()
   }
 }
 </script>
