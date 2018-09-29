@@ -26,22 +26,28 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .blogelement {
-  margin-left: 5px;
+  margin-left: 10px;
   margin-top: 2px;
   margin-right: 0;
   display: block;
   width: 100%;
   cursor: pointer;
+
 }
 
-.blogelement:hover {
+.blogelement h3:hover {
   color: white;
   background-color: #626262;
-  padding: 4px;
+
 }
 
 h3 {
+  text-align: left;
+  padding: 4px;
+  padding-left: 15px;
+  transition: all 0.2s ease;
   color: lightgray;
   margin: 0;
+  border-radius: 4px;
 }
 </style>

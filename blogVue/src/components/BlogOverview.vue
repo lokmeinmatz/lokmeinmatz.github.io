@@ -73,6 +73,8 @@ export default {
   height: calc(100vh - 60px);
   width: 100px;
   display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
   align-items: center;
   top: 60px;
   left: 0;
