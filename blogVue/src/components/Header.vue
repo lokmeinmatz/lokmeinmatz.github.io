@@ -23,6 +23,10 @@ header {
   top: 0;
   left: 0;
   background-color: #72d3eb;
+  z-index: 100;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
 h1 {

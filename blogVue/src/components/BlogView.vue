@@ -40,6 +40,10 @@ export default {
 .blogview {
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
+  position: relative;
+  -webkit-box-shadow: 5px 0px 10px 10px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 0px 10px 10px rgba(0,0,0,0.75);
+  box-shadow: 5px 0px 10px 10px rgba(0,0,0,0.75);
 }
 
 .blog {

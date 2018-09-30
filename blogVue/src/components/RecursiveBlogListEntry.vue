@@ -57,5 +57,6 @@ h3 {
   color: lightgray;
   margin: 0;
   border-radius: 4px;
+  white-space: nowrap;
 }
 </style>

@@ -40,10 +40,9 @@ export default {
   flex-direction: column;
   overflow-x: hidden;
   align-items: center;
-  top: 60px;
   left: 0;
   background-color: #494949;
-
+  position: relative;
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
 }
@@ -63,4 +62,6 @@ h2 {
   color: white;
   font-weight: 300;
 }
+
+
 </style>
