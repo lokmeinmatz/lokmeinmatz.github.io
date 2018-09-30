@@ -38,6 +38,6 @@ h2 {
   border-radius: 4px;
   background-color: #21b2d7;
   color: white;
-  font-weight: 300;
+  font-weight: 400;
 }
 </style>

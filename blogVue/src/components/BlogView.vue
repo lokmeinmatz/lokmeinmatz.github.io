@@ -36,10 +36,24 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .blogview {
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
+}
+
+.blog {
+  width: 100%;
+}
+
+.blog-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.blog-content p {
+  font-size: 1.2rem;
+  text-align: left;
 }
 
 </style>
