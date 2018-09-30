@@ -1,3 +1,10 @@
+import marked from 'marked'
+
+marked.setOptions({
+  baseUrl: 'https://lokmeinmatz.github.io'
+})
+
+
 export default class Blog {
   //{title: subPath, fullPath: blog.title, url: blogPage ? blog.URL : '', children: []}
   constructor(title, fullPath, url, children) {
@@ -9,14 +16,26 @@ export default class Blog {
   }
 
   loadContent() {
+    console.log('loading blog')
     fetch('https://lokmeinmatz.github.io/' + this.url + '/index.md')
     .then(r => {
-      if(r.ok) return r.blob()
+      if(r.ok) return r.text()
       throw new Error('Blog Entry ' + r.url + ' not found')
     })
     .then(r => {
-      console.log(r)
+
+      
+      this.content = marked(r)
+      
+      if(typeof this.content != 'string') {
+        console.log('Blog not found')
+        this.content = marked('**Blog wurde nicht gefunden**')
+      }
+      
     })
-    .catch(e => console.error(e))
+    .catch(() => {
+      console.log('Blog not found')
+      this.content = marked('**Blog wurde nicht gefunden**')
+    })
   }
 }

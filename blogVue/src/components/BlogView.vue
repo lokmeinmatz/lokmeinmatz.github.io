@@ -1,10 +1,9 @@
 <template>
   <div class="blogview">
     <h1 v-if="selected == undefined">No Blog selected</h1>
+    <h2 v-else-if="selected.content == undefined">Blog loading...</h2>
     <div class="blog" v-else>
-      <div class="blog-head">
-        <h1>{{selected.title}}</h1>
-        <h3></h3>
+      <div class="blog-content" v-html="selected.content">
       </div>
     </div>
   </div>
@@ -24,16 +23,14 @@ export default {
     }
   },
   methods: {
-    loadBlog() {
+    loadBlog(selected) {
+      this.selected = selected
       if(this.selected == undefined) return
       this.selected.loadContent()
     }
   },
   mounted() {
-    EventBus.$on('selectedBlog', selected => {
-      this.selected = selected
-      this.loadBlog()
-    })
+    EventBus.$on('selectedBlog', this.loadBlog)
   }
 }
 </script>
