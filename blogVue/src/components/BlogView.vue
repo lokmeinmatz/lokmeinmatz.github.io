@@ -49,11 +49,18 @@ export default {
 .blog-content {
   max-width: 1000px;
   margin: 0 auto;
+  text-align: left;
+  font-size: 1.2rem;
 }
 
-.blog-content p {
-  font-size: 1.2rem;
-  text-align: left;
+.blog-content h1 {
+  text-align: center;
+}
+.blog-content h2 {
+  text-align: center;
+}
+.blog-content h3 {
+  text-align: center;
 }
 
 </style>

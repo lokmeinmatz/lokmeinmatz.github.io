@@ -63,15 +63,17 @@ export default {
           }
         }
         console.log('Finished Parsing')
-        console.log(this.blogs)
+        EventBus.$emit('selectedBlog', this.blogs[0])
       })
     }
   },
   mounted() {
     this.getBlogList()
     EventBus.$on('selectedBlog', selected => {
+      console.log('Selected')
       this.selected = selected
     })
+    
   }
 }
 </script>
