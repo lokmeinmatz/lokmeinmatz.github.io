@@ -9,6 +9,14 @@ export default class Blog {
   }
 
   loadContent() {
-    fetch('https://lokmeinmatz.github.io/' + this.url + '/index.md').then(r => console.log(r))
+    fetch('https://lokmeinmatz.github.io/' + this.url + '/index.md')
+    .then(r => {
+      if(r.ok) return r.blob()
+      throw new Error('Blog Entry ' + r.url + ' not found')
+    })
+    .then(r => {
+      console.log(r)
+    })
+    .catch(e => console.error(e))
   }
 }
