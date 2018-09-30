@@ -1,18 +1,39 @@
 <template>
   <div class="blogview">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit nisi dolores excepturi necessitatibus quisquam qui, pariatur, eveniet consequuntur explicabo ipsum reprehenderit rerum iusto quidem repellat? Quis vitae labore tenetur odit!
+    <h1 v-if="selected == undefined">No Blog selected</h1>
+    <div class="blog" v-else>
+      <div class="blog-head">
+        <h1>{{selected.title}}</h1>
+        <h3></h3>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+
+import EventBus from '../EventBus.js'
+
+
+
 export default {
   name: 'BlogView',
   data() {
     return {
-      
+      selected: undefined
     }
   },
-  computed: {
+  methods: {
+    loadBlog() {
+      if(this.selected == undefined) return
+      this.selected.loadContent()
+    }
+  },
+  mounted() {
+    EventBus.$on('selectedBlog', selected => {
+      this.selected = selected
+      this.loadBlog()
+    })
   }
 }
 </script>

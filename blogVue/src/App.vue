@@ -2,7 +2,7 @@
   <div id="app">
     <Header></Header>
     <main>
-      <BlogOverview></BlogOverview>
+      <BlogOverview :blogs="blogs"></BlogOverview>
       <BlogView></BlogView>
     </main>
   </div>
@@ -14,6 +14,9 @@ import BlogOverview from './components/BlogOverview.vue'
 import BlogView from './components/BlogView.vue'
 import RecursiveBlogListEntry from './components/RecursiveBlogListEntry.vue'
 import Vue from 'vue'
+import EventBus from './EventBus.js'
+import Blog from './BlogClass.js'
+
 Vue.component('RecursiveBlogListEntry', RecursiveBlogListEntry)
 
 export default {
@@ -22,6 +25,53 @@ export default {
     Header,
     BlogOverview,
     BlogView
+  },
+  data() {
+    return {
+      blogs: [],
+      selected: undefined
+    }
+  },
+  methods: {
+    getBlogList() {
+      fetch('https://lokmeinmatz.github.io/blog/index.json')
+      .then(r => r.json())
+      .then(j => {
+        console.log('Parsing Blog List...')
+        this.blogs = []
+        //restructure j to "tree"
+        for(let blog of j) {
+          //Structure: {"title" : cat/title,"URL" : url}
+          let path = blog.title.split('/')
+          console.log(path)
+          let currentLayer = this.blogs
+          for(let subPath of path) {
+            let elmt = currentLayer.find(e => e.title == subPath)
+            let blogPage = subPath == path[path.length - 1]
+            if(!elmt) {
+              //create object
+              let blogObj = new Blog(subPath, blog.title, blogPage ? blog.URL : '', [])
+              
+              currentLayer.push(blogObj)
+              elmt = blogObj
+            }
+            else if(blogPage) {
+              //allready exists, but no url info
+              elmt.url = blog.URL
+            }
+            currentLayer = elmt.children
+          }
+        }
+        console.log('Finished Parsing')
+        console.log(this.blogs)
+      })
+    }
+  },
+  mounted() {
+    this.getBlogList()
+    EventBus.$on('selectedBlog', selected => {
+      this.selected = selected
+    })
   }
 }
 </script>

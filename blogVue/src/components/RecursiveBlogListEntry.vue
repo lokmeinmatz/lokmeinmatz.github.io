@@ -1,18 +1,26 @@
 <template>
   <div class="blogelement">
     <div class="title">
-      <h3>{{blogsubtree.title}}</h3>
+      <h3 @click="selectedBlog()">{{blogsubtree.title}}</h3>
     </div>
     <RecursiveBlogListEntry :blogsubtree="sub" v-for="sub in getsubtrees" :key="sub.title"></RecursiveBlogListEntry>
   </div>
 </template>
 
 <script>
+import EventBus from '../EventBus.js'
+
+
 export default {
   name: 'RecursiveBlogListEntry',
   props: ['blogsubtree'],
   data() {
     return {
+    }
+  },
+  methods: {
+    selectedBlog() {
+      EventBus.$emit('selectedBlog', this.blogsubtree)
     }
   },
   computed: {
@@ -44,7 +52,7 @@ export default {
 h3 {
   text-align: left;
   padding: 4px;
-  padding-left: 15px;
+  padding-left: 20px;
   transition: all 0.2s ease;
   color: lightgray;
   margin: 0;
