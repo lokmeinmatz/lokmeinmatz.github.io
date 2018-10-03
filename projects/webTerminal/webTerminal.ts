@@ -167,6 +167,7 @@ class webTerminal {
   }
 
   displayBuffer(cells: DataCell[], offset? : number) {
+    if(!offset) offset = 0
     for(let i = 0; i < cells.length; i++) {
       let idx = i + offset
       if(idx >= this.cells.length) return

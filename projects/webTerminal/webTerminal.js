@@ -89,6 +89,7 @@ var webTerminal = (function () {
                 this.cells[y * this.width + x] = new Cell(element, x, y, "");
             }
         }
+        window.onresize = this.recalcFontSize;
         this.recalcFontSize();
         element.onmousemove = function (e) {
             var x = e.layerX;
@@ -112,7 +113,7 @@ var webTerminal = (function () {
         requestAnimationFrame(this.updateFrame.bind(this));
     };
     webTerminal.prototype.recalcFontSize = function (newSize) {
-        if (!newSize) {
+        if (!newSize || isNaN(newSize)) {
             var bounding = this.parent.getBoundingClientRect();
             var cellHeight = bounding.height / this.height * 0.7;
             var cellWidth = bounding.width / this.width;
@@ -143,6 +144,8 @@ var webTerminal = (function () {
         }
     };
     webTerminal.prototype.displayBuffer = function (cells, offset) {
+        if (!offset)
+            offset = 0;
         for (var i = 0; i < cells.length; i++) {
             var idx = i + offset;
             if (idx >= this.cells.length)
