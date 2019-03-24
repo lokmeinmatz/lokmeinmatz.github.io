@@ -7,22 +7,22 @@ class Poly {
     this.coords = coords
     
     this.bb = {
-      minx: 300,
-      miny: 300,
-      maxx: -300,
-      maxy: -300
+      minlat: 300,
+      minlon: 300,
+      maxlat: -300,
+      maxlon: -300
     }
 
     for (let c of coords) {
-      if(c[0] < this.bb.minx) this.bb.minx = c[0]
-      if(c[1] < this.bb.miny) this.bb.miny = c[1]
-      if(c[0] > this.bb.maxx) this.bb.maxx = c[0]
-      if(c[1] > this.bb.maxy) this.bb.maxy = c[1]
+      if(c[1] < this.bb.minlat) this.bb.minlat = c[1]
+      if(c[0] < this.bb.minlon) this.bb.minlon = c[0]
+      if(c[1] > this.bb.maxlat) this.bb.maxlat = c[1]
+      if(c[0] > this.bb.maxlon) this.bb.maxlon = c[0]
     }
   }
 
   draw() {
-    console.log(`Drawing ${this.coords.length} verts`)
+
     beginShape()
     for(let i = 0; i < this.coords.length; i++) {
       let curr = mapCoords(this.coords[i][1], this.coords[i][0], false)
@@ -31,21 +31,22 @@ class Poly {
     endShape()
   }
 
-  drawBB() {
-    let mtl = mapCoords(this.bb.miny, this.bb.minx)
-    let mbr = mapCoords(this.bb.maxy, this.bb.maxx)
+  drawBB(inView) {
+    let mtl = mapCoords(this.bb.minlat, this.bb.minlon)
+    let mbr = mapCoords(this.bb.maxlat, this.bb.maxlon)
     push()
     rectMode(CORNERS)
     noFill()
-    stroke(0, 255, 0)
+    if (inView)stroke(0, 255, 0)
+    else stroke(255, 0, 0)
     rect(mtl[0], mtl[1], mbr[0], mbr[1])
     pop()
   }
 
   inView(topLeft, bottomRight) {
     
-    if(topLeft[0] > this.bb.maxx || bottomRight[0] < this.bb.minx) return false
-    if(topLeft[1] > this.bb.maxy|| bottomRight[1] < this.bb.miny) return false
+    if(topLeft[0] > this.bb.maxlat || bottomRight[0] < this.bb.minlat) return false
+    if(topLeft[1] > this.bb.maxlon|| bottomRight[1] < this.bb.minlon) return false
     return true
   }
 }
@@ -100,10 +101,11 @@ function mapPixel(x, y) {
   y /= zoom * zoom
   x -= xoffset
   y += yoffset
-  return [y, x] //y = lat, x = lon
+  return [-y, x] //y = lat, x = lon
 }
 
 function drawMap() {
+  const start = performance.now()
   background(30);
   push()
   translate(width/2, height/2)
@@ -112,10 +114,9 @@ function drawMap() {
   stroke(20, 60, 255)
 
   let topLeft = mapPixel(-width/2, -height/2)
-  topLeft[0] *= -1
   let bottomRight = mapPixel(width/2, height/2)
-  bottomRight[0] *= -1
-
+  console.log(topLeft)
+  console.log(bottomRight)
   push()
   noFill()
   stroke(255, 0, 0)
@@ -127,38 +128,47 @@ function drawMap() {
   rect(ptl[0], ptl[1], pbr[0], pbr[1])
   pop()
 
-
+  let vertsDrawnTotal = 0
   for (let feature of landmap) {
-    if(feature.inView(topLeft, bottomRight)) feature.draw()
-    feature.drawBB()
+    const fiv = feature.inView(topLeft, bottomRight)
+    if(fiv) {
+      feature.draw()
+      vertsDrawnTotal += feature.coords.length
+    }
+    
+    feature.drawBB(fiv)
   }
+  console.log(`Drawn ${vertsDrawnTotal} verts`)
 
   //console.log(loclist.locations)
   //noStroke()
-  strokeWeight(3)
-
-  let prev = undefined
-
+  const tilesize = 10
+  const totlength = floor((width / tilesize) * (height / tilesize))
+  const imap = new Array(totlength).fill(0, 0, totlength)
+  
+  let highest = 0
   for(let d of loclist) {
     //if(!d.l || !d.longitudeE7 || !d.accuracy || !d.altitude) continue
     const mc = mapCoords(d.lat, d.lon, true)
-    const acc = d.acc
-    const alt = d.alt
-
-    if(prev != undefined) {
-      stroke(alt, 255 - alt, 50, map(acc, 0, maxacc, 255, 0))
-      //ellipse(lon, -lat, map(acc, 0, 2147467, 10, 21))
-      line(prev[0], prev[1], mc[0], mc[1])
-
-    }
-
-    prev = mc
-
+    mc[0] -= width / 2
+    mc[1] -= height / 2
+    mc[0] *= tilesize
+    mc[1] *= tilesize
+    let index = floor(mc[0] + mc[1] * width / tilesize)
+    imap[index] += 1 / d.acc
+    if (imap[index] > highest) highest = imap[index]
   }
 
   pop()
+  noStroke()
+  for(let x = 0; x < width / tilesize; x++) {
+    for(let y = 0; y < height / tilesize; y++) {
+      fill(lerpColor(color(255, 255, 255, 0), color(255, 100, 0, 255), imap[x+y*width / tilesize] / highest))
+      rect(x * tilesize, y * tilesize, tilesize, tilesize)
+    }
+  }
 
-  console.log("Finished update")
+  console.log(`Finished. took ${performance.now() - start} ms`)
 }
 
 function setup() {
