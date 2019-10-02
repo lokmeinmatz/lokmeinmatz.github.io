@@ -20,7 +20,8 @@ header {
   padding: 0px;
   background: rgb(42,157,143);
   background: linear-gradient(135deg, rgba(42,157,143,1) 0%, rgba(244,162,97,1) 100%);
-  background-image: url('/imgs/beach.jpg');
+  background-image: url('/imgs/norway.jpg');
+  background-position: center 50%;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -31,7 +32,7 @@ header {
 
 .logo {
   color: white;
-  font-size: 1.5rem;
+  font-size: 100px;
 }
 
 .logo p {
@@ -40,14 +41,34 @@ header {
 }
 
 .logo .logo-portfolio {
-  font-size: 2rem;
+  font-size: 50px;
 }
+
+.logo-portfolio a {
+  text-decoration: none;
+  font-style: italic;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-out;
+}
+
+.logo-portfolio a:hover {
+  background-color: white;
+  color: rgba(143, 20, 243, 0.9);
+}
+
 .logo .logo-portfolio::after {
   display: block;
   content: '';
   width: 100%;
-  height: 1px;
+  height: 2px;
   background-color: white;
+  transition: transform 0.2s ease-out;
+}
+
+.logo .logo-portfolio:hover::after {
+  transform: translateY(10px);
 }
 
 main {
