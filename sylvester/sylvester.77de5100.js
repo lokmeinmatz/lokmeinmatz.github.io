@@ -158,8 +158,9 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var ZERO = Date.now() + 1000 * 10;
+var ZERO = Date.now() + 1000 * 15;
 var yearElements;
+var canvas;
 
 function HSVtoRGB(h, s, v) {
   var r, g, b, i, f, p, q, t;
@@ -206,11 +207,18 @@ window.onload = function () {
   console.log('loaded');
   var lastTimer = '00:00';
   yearElements = document.querySelectorAll('#fireworks #year h1');
+  var fired = false;
 
   var updateTimer = function updateTimer() {
     var secsRemaining = ZERO - Date.now(); //console.log(secsRemaining)
 
     var ssecsRemaining = "".concat(Math.floor(secsRemaining / 60000).toString().padStart(2, '0'), ":").concat(Math.floor(secsRemaining / 1000 % 60).toString().padStart(2, '0'));
+
+    if (secsRemaining < 5000 && !fired) {
+      fired = true;
+      fetch('http://raspberrypi3:8080/boom');
+    }
+
     var diffsMap = new Map();
 
     for (var i = 0; i < ssecsRemaining.length; i++) {
@@ -315,7 +323,7 @@ var Rocket = /*#__PURE__*/function (_Particle) {
     _this = _super.call(this, x, y);
     _this.vx = 0;
     _this.vy = -100;
-    _this.maxHeight = Math.random() * 100 + 200;
+    _this.maxHeight = Math.random() * canvas.height / 2 + 100;
     return _this;
   }
 
@@ -410,7 +418,7 @@ var Color = /*#__PURE__*/function () {
 
 function startFireworks() {
   console.log('fw');
-  var canvas = document.querySelector('#fireworks canvas');
+  canvas = document.querySelector('#fireworks canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   var ctx = canvas.getContext('2d');
@@ -432,14 +440,13 @@ function startFireworks() {
     rockets.push(new Rocket(x, canvas.height + 20));
   }
 
-  for (var _i2 = 0; _i2 < 4; _i2++) {
+  for (var _i2 = 0; _i2 < 6; _i2++) {
     spawnRocket(Math.random() * canvas.width);
   }
 
-  ctx.strokeStyle = 'red';
-  ctx.fillRect(100, 100, 100, 100);
   console.log(rockets);
   var dt = 1 / 60;
+  var lastSpawn = 0;
 
   function draw() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
@@ -456,10 +463,11 @@ function startFireworks() {
         r.step(dt);
 
         if (r.shouldExplode()) {
-          var col = HSVtoRGB(Math.random(), 0.5, 1.);
-          var bColor = new Color(col.r, col.g, col.b); //debugger
+          var bHue = Math.random(); //debugger
 
           for (var _i3 = 0; _i3 < 100; _i3++) {
+            var col = HSVtoRGB(bHue + (Math.random() - 0.5) * 0.1, 0.5, 1.);
+            var bColor = new Color(col.r, col.g, col.b);
             particles.push(new Spark(r.x, r.y, bColor));
           }
         }
@@ -470,12 +478,14 @@ function startFireworks() {
       _iterator2.f();
     }
 
+    lastSpawn++;
     rockets = rockets.filter(function (r) {
       return !r.shouldExplode();
     });
 
-    if (Math.random() > 0.95) {
+    if (lastSpawn > 20 && rockets.length < 10) {
       spawnRocket(Math.random() * canvas.width);
+      lastSpawn = 0;
     }
 
     var _iterator3 = _createForOfIteratorHelper(particles),
@@ -529,7 +539,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60745" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61971" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
