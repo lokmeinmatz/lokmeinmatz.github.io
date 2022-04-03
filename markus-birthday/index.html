@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap" rel="stylesheet"> 
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tsparticles-preset-fire@2/tsparticles.preset.fire.bundle.min.js"></script>
+    <title>MArkus' 16. Geburtstag</title>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFirePreset(tsParticles);
+    
+            tsParticles.load("tsparticles", {
+            preset: "fire",
+            });
+        })
+
+        function toggleMenu() {
+            const info = document.querySelector('.infos')
+            info.classList.toggle('open')
+        }
+    </script>
+    <style>
+        html, body, .app {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: absolute;
+            padding: 0;
+            margin: 0;
+            background-color: black;
+        } 
+
+:root {
+    --infoOpenHeight: 50px;
+}
+
+        .mov-logos {
+            position: absolute;
+            width:  100%;
+            height: 100%;
+        }
+
+        .mov-logos img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .mov-logos .fb-logo {
+            z-index: 100;
+            position: fixed;
+            width: 20em;
+            left: calc(50% - 10em);
+            top: 30%;
+            
+        }
+
+        #tsparticles canvas {
+            position: fixed;
+        }
+
+        @keyframes fb-logo-in {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .mov-logos .fb-logo img {
+            animation: fb-logo-in 1s ease-out;
+        }
+
+        .mov-logos .fb3-title img {
+            opacity: 0;
+            animation: fb-logo-in 1s ease-out;
+            animation-delay: 0.5s;
+            animation-fill-mode: forwards;
+        }
+
+
+        .mov-logos .fb3-title {
+            z-index: 100;
+            position: fixed;
+            width: 20em;
+            left: calc(50% - 10em);
+            top: calc(30% + 7em);
+        }
+
+        .text-top {
+            position: relative;
+            z-index: 40;
+            color: rgb(230, 235, 250);
+            width: 100%;
+            display: flex;
+            justify-content: center
+        }
+
+        .text-top h1 {
+            font-family: 'Lavishly Yours', cursive;
+            text-align: center;
+        }
+
+        @keyframes slide-cloud1 {
+            from {
+                right: -500px;
+            }
+            to {
+                right: -200px;
+            }
+        }
+
+        .cloud1 {
+            position: fixed;
+            z-index: 5;
+            top: 0;
+            width: 800px;
+            opacity: 50%;
+            animation: slide-cloud1 15s ease-in-out infinite forwards alternate;
+        }
+        .cloud2 {
+            position: fixed;
+            z-index: 5;
+            transform: rotate(180deg);
+            top: 200px;
+            width: 600px;
+            right: -500px;
+            opacity: 40%;
+            animation: slide-cloud1 12s ease-in-out infinite forwards alternate;
+            animation-delay: 1s;
+        }
+
+        @keyframes slide-cloud3 {
+            from {
+                left: 0px;
+                top: 100px;
+            } to {
+                left: 100%;
+                top: 250px;
+            }
+        }
+
+        .cloud3 {
+            animation: slide-cloud3 30s ease-in-out 0s infinite alternate;
+            position: fixed;
+            z-index: 5;
+            top: 300px;
+            opacity: 50%;
+            width: 1500px;
+            left: -000px;
+            animation-delay: 1s;
+        }
+
+        .infos {
+            position: fixed;
+            z-index: 150;
+            bottom: -300px;
+            background: red;
+            width: calc(100% - 4px);
+            max-width: 500px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: grid;
+            grid-template-rows: var(--infoOpenHeight) 270px auto;
+            justify-content: center;
+            border: gray 1px solid;
+            border-radius: 10px;
+            transition: bottom 0.5s ease-out;
+            height: 350px;
+            background-color: rgba(10, 15, 30, 0.8);
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            backdrop-filter: blur(10px);
+        }
+
+        .facts {
+            margin: 0.5em;
+            display: grid;
+            grid-template-columns: min-content auto;
+            gap: 0.5em;
+            align-items: center;
+        }
+
+        .facts p {
+            margin: 0;
+        }
+
+        .infos.open {
+            bottom: -30px;
+        }
+
+        .infos .show-infos {
+            color: white;
+            height: var(--infoOpenHeight);
+            border: none;
+            background-color: transparent;
+            width: 100%;
+        }
+        .infos .show-infos > span {
+            display: block;
+            transition: transform 0.5s linear;
+            transform: rotate(90deg);
+        }
+
+        .infos.open .show-infos > span {
+            transform: rotate(-90deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="text-top">
+            <h1>Alles Gute zum Geburtstag!</h1>
+        </div>
+        <div class="mov-logos">
+            <div class="fb-logo">
+                <img src="img/fantastic-beasts-logo.png" alt="">
+            </div>
+            <div class="fb3-title">
+                <img src="img/secrets.png" alt="">
+            </div>
+        </div>
+        <div class="clouds">
+            <img class="cloud1" src="img/cloud1.png" alt="">
+            <img class="cloud2" src="img/cloud1.png" alt="">
+            <img class="cloud3" src="img/cloud3.png" alt="">
+        </div>
+        <div class="infos">
+            <button class="show-infos" onclick="toggleMenu()">
+                <span>⟪</span>
+            </button>
+            <div class="facts">
+                <p>📽️</p>
+                <p>Kinobesuch Phantastische Tierwesen 3 in OV</p>
+                <p>📍</p>
+                <p>Zoopalast</p>
+                <p>🍕</p>
+                <p>Essen (Pizza oder was anders nices)</p>
+                <p>🍿</p>
+                <p>Inkl. Popcorn / Nachos & Cola</p>
+            </div>
+        </div>
+        <div id="tsparticles"></div>
+    </div>
+</body>
+</html>
