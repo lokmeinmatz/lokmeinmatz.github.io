@@ -20,14 +20,19 @@ jobs:
       with:
         node-version: 16
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: Setup pnpm
+      # You may pin to the exact commit or the version.
+      # uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd
+      uses: pnpm/action-setup@v2.2.4
+      with:
+        # If specified, run `pnpm install`
+        run_install: true
+    - run: pnpm run build --if-present
     - name: Upload GitHub Pages artifact
       uses: actions/upload-pages-artifact@v1.0.4
       with:
         # Path of the directory containing the static assets.
-        path: dist/
+        path: src/.vuepress/dist/
         # Duration after which artifact will expire in days.
         retention-days: 1
   deploy:
