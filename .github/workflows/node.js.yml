@@ -27,7 +27,7 @@ jobs:
         version: 7
         # If specified, run `pnpm install`
         run_install: true
-    - run: pnpm run build --if-present
+    - run: pnpm run build
     - name: Upload GitHub Pages artifact
       uses: actions/upload-pages-artifact@v1.0.4
       with:
