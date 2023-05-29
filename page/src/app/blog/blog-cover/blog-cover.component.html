@@ -1,0 +1,10 @@
+<a tuiAction [routerLink]="articleLink">
+    <div class="article-data">
+        <h3 class="article-title">{{article?.title ?? '...'}}</h3>
+        <p *ngIf="article?.teaser" class="article-teaser">{{ article!.teaser }}</p>
+    </div>
+    <div *ngIf="article?.thumbnails?.default" class="article-image tui-island__marker">
+        <img lazy="true" [src]="article!.thumbnails!.default" />
+    </div>
+    <div class="article-state-badge" *ngIf="article && article?.state !== 'PUBLISHED'">{{article.state}}</div>
+</a>

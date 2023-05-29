@@ -1,0 +1,24 @@
+<a  
+    class="back-btn"
+    tuiButton
+    size="m"
+    appearance="flat"
+    icon="tuiIconArrowLeft"
+    routerLink="/blog"
+>Blog List</a>
+<hr/>
+<ng-container  *ngIf="article$ | async as article; else loadingTemplate">
+    <article *ngIf="article.content" markdown [data]="article.content">
+    </article>
+    <div *ngIf="article.error" class="error">
+        <tui-svg src="tuiIconAlertCircle"></tui-svg>
+        <h3>Sorry, can't find this content right now</h3>
+        <a tuiButton routerLink="/blog">Back to Blog Overview</a>
+    </div>
+
+</ng-container>
+<ng-template #loadingTemplate>
+    <article>
+        <h1 class="tui-skeleton tui-skeleton_text"></h1>
+    </article>
+</ng-template>

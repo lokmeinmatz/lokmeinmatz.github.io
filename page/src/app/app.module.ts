@@ -5,6 +5,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -13,10 +14,11 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-      BrowserAnimationsModule,
-      TuiRootModule,
-      TuiDialogModule,
-      TuiAlertModule
+    RouterModule,
+    BrowserAnimationsModule,
+    TuiRootModule,
+    TuiDialogModule,
+    TuiAlertModule
 ],
   providers: [ provideClientHydration() ],
   bootstrap: [AppComponent]

@@ -1,0 +1,30 @@
+{
+    "articles": [
+        {
+            "file": "2023/dualboot-surface",
+            "title": "Dualboot Windows 11 and Pop!_OS on a Surface Book 2 with (Semi) Secure boot",
+            "thumbnails": {
+                "default": "/assets/blog/2023/img/dualboot-thumbnail.png"
+            },
+            "published": "2023-06-03",
+            "state": "WIP",
+            "tags": [
+                "technology", "linux", "windows", "microsoft"
+            ],
+            "teaser": "An unprepared dive into custom kernels, secure boot chains and more!"
+        },
+        {
+            "file": "2023/angular-static-blog",
+            "title": "Creating a Angular Pre-Rendered blog to deploy on Github Pages",
+            "thumbnails": {
+                "default": "/assets/blog/2023/img/angular-thumbnail.png"
+            },
+            "state": "WIP",
+            "published": "2023-06-03",
+            "tags": [
+                "technology", "angular", "web", "seo"
+            ],
+            "teaser": "How this blog is built and deployed without a full backend..."
+        }
+    ]
+}

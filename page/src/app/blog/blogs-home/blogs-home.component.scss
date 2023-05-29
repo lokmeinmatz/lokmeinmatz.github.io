@@ -1,0 +1,11 @@
+:host > * {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.blog-list {
+    padding: 1em;
+    & > ul > li {
+        margin: 1em;
+    }
+}

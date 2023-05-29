@@ -1,0 +1,20 @@
+<h2>The latest blogs</h2>
+<div class="blog-list">
+    <ul >
+        <ng-container *ngIf="articles$ | async as page; else loading">
+            <li *ngFor="let article of page.nodes">
+                <blog-cover [article]="article"></blog-cover>
+            </li>
+        </ng-container>
+        <ng-template #loading>
+            <li *ngFor="let i of range(0, pageSize)">
+                <blog-cover></blog-cover>
+            </li>
+        </ng-template>
+    </ul>
+    <tui-pagination
+        [index]="(page$ | async) || 0"
+        [length]="(pageCount$ | async) || 1"
+        (indexChange)="page$.next($event)"
+    ></tui-pagination>
+</div>

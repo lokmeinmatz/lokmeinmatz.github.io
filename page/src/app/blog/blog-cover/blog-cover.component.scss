@@ -1,0 +1,36 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.article-image {
+    height: 150px;
+    aspect-ratio: 1 / 1;
+    img {
+        height: 100%;
+        width: 100%;
+        border-radius: var(--tui-radius-m);
+    }
+}
+
+:host > a {
+    overflow: hidden;
+    position: relative;
+}
+
+
+@media #{$tui-mobile} {
+
+    .article-teaser {
+        display: none;
+    }
+}
+
+.article-state-badge {
+    position: absolute;
+    right: -40px;
+    top: 20px;
+    transform: rotate(45deg);
+    padding: 0.1em;
+    width: 200px;
+    text-align: center;
+    background-color: orange;
+    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.45);
+}
