@@ -1,0 +1,70 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+.blog-ref {
+    width: 100%;
+    position: relative;
+    z-index: 60;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+
+    & a {
+        @include hoverable-with-shadow();
+    }
+}
+
+.background {
+    position: absolute;
+}
+
+.computer-science .background {
+    z-index: 2;
+    right: 0;
+}
+
+.photography .background {
+    right: unset;
+    left: 0;
+    z-index: 1;
+}
+
+.overlay {
+    margin: 1em;
+    z-index: 50;
+    width: min(100%, 500px);
+    min-width: 150px;
+    font-size: 1.5rem;
+    padding: 0.5em;
+    border-radius: var(--tui-radius-m);
+    backdrop-filter: blur(10px);
+    background-color: rgba(50, 50, 50, 0.2);
+}
+
+.computer-science, .photography {
+    right: 0;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.photography {
+    height: 300px;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    & a > img {
+        width: 50px;
+        aspect-ratio: 1 / 1;
+    }
+}
+
+
+footer {
+    
+}

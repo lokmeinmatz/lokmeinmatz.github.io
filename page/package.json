@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run page:serve-ssr",
+    "gen-paths": "node ./src/gen-paths.mjs",
     "serve:ssr": "node dist/page/server/main.js",
     "build:ssr": "ng build && ng run page:server",
     "prerender": "ng run page:prerender"

@@ -1,0 +1,14 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+
+footer {
+    @include shadow(1);
+    position: relative;
+    z-index: 60;
+    background-color: var(--tui-base-01);
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

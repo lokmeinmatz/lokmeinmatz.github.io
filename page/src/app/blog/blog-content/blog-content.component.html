@@ -1,11 +1,14 @@
-<a  
-    class="back-btn"
-    tuiButton
-    size="m"
-    appearance="flat"
-    icon="tuiIconArrowLeft"
-    routerLink="/blog"
->Blog List</a>
+<tui-breadcrumbs>
+    <ng-container *ngFor="let item of breadCrumbs">
+        <a
+            *tuiItem
+            tuiLink
+            [routerLink]="item.link"
+        >
+            {{ item.title }}
+        </a>
+    </ng-container>
+</tui-breadcrumbs>
 <hr/>
 <ng-container  *ngIf="article$ | async as article; else loadingTemplate">
     <article *ngIf="article.content" markdown [data]="article.content">

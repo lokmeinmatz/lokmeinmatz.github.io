@@ -1,0 +1,6 @@
+@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+tui-app-bar {
+    z-index: 100;
+    @include shadow(6);
+}

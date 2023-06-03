@@ -145,9 +145,7 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": [
-              "/"
-            ]
+            "routesFile": "./routesFile.txt"
           },
           "configurations": {
             "production": {

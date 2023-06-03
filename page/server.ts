@@ -1,5 +1,5 @@
-import 'zone.js/node';
 import '@ng-web-apis/universal/mocks';
+import 'zone.js/node';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
@@ -7,6 +7,11 @@ import * as express from 'express';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { AppServerModule } from './src/main.server';
+import { UniversalModule } from '@ng-web-apis/universal';
+
+global.requestAnimationFrame = global.setImmediate as any;
+
+global.cancelAnimationFrame = () => {}; 
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -31,7 +36,9 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    res.render(indexHtml, { req, providers: [
+      { provide: APP_BASE_HREF, useValue: req.baseUrl }
+    ] });
   });
 
   return server;

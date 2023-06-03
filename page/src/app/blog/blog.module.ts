@@ -12,6 +12,7 @@ import { TuiSvgModule } from '@taiga-ui/core';
 const routes: Routes = [
   {
     path: '',
+    title: 'Matthias Kind | Blog',
     component: BlogsHomeComponent
   },
   {
