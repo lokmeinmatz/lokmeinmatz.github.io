@@ -11,7 +11,7 @@
 </tui-breadcrumbs>
 <hr/>
 <ng-container  *ngIf="article$ | async as article; else loadingTemplate">
-    <article *ngIf="article.content" markdown [data]="article.content">
+    <article *ngIf="article.content" markdown [data]="article.content" (error)="onMdxError()" (ready)="onMdxReady()">
     </article>
     <div *ngIf="article.error" class="error">
         <tui-svg src="tuiIconAlertCircle"></tui-svg>

@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     title: 'Matthias Kind | Blog',
-    component: BlogsHomeComponent
+    component: BlogsHomeComponent,
   },
   {
     path: '**',

@@ -12,3 +12,4 @@ dist
 .temp
 config.local.js
 basement_dist
+page/.angular

@@ -8,6 +8,8 @@ import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
 import { Title } from '@angular/platform-browser';
 
+declare const Zone: any;
+
 @Component({
   selector: 'app-blog-content',
   standalone: true,
@@ -41,9 +43,27 @@ export class BlogContentComponent {
     catchError(e => of({ error: e }))
   );
 
+  private loadZoneTask: any;
+
   constructor(
     protected route: ActivatedRoute,
     protected blogService: BlogService,
     protected title: Title
-  ) {}
+  ) {
+    /* this.loadZoneTask = Zone.current
+    .scheduleMacroTask(
+      `render-md`,
+      () => { },
+      {},
+      () => { }
+    ); */
+  }
+
+  onMdxError() {
+    this.loadZoneTask?.invoke();
+  }
+  
+  onMdxReady() {
+    this.loadZoneTask?.invoke();
+  }
 }
