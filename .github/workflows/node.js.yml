@@ -27,9 +27,17 @@ jobs:
         version: 7
         # If specified, run `pnpm install`
         run_install: true
-    - name: Build
+    - name: NG Prerender
       working-directory: ./page 
-      run: pnpm run build
+      run: |
+        pnpm run start &
+        server_pid=$!
+        cleanup() {
+            kill -s SIGTERM $server_pid
+        }
+        trap cleanup EXIT
+        sleep 10
+        pnpm run prerender
     - name: Upload GitHub Pages artifact
       uses: actions/upload-pages-artifact@v1.0.4
       with:
