@@ -1,6 +1,43 @@
-@import '@taiga-ui/core/styles/taiga-ui-local.scss';
-
-tui-app-bar {
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
-    @include shadow(6);
+    height: var(--appbar-height);
+    display: block;
+
+    &.is-home {
+        header {
+            background-color: color-mix(in srgb, var(--baseColor) 80%, transparent);
+            backdrop-filter: blur(4px);
+            #center {
+                // transition: top 0.2s linear, font-size 0.2s linear;
+                font-size: calc(40px - var(--home-anim) * 20px);
+                top: calc(37vh - var(--home-anim) * 37vh );
+            }
+        }
+    }
+    header {
+        display: grid;
+        height: 100%;
+        padding: 4px;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--baseColor);
+        #center {
+            font-size: 20px;
+            position: relative;
+            font-family: 'Roboto Slab', serif;
+            text-decoration: none;
+            list-style: none;
+            color: var(--secondaryColor);
+        }
+        #nav-items {
+            position: absolute;
+            right: 4px;
+            width: min-content;
+            justify-self: end;
+        }
+    }
 }

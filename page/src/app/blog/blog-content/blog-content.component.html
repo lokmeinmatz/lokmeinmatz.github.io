@@ -1,4 +1,4 @@
-<tui-breadcrumbs>
+<nav aria-label="breadcrumbs">
     <ng-container *ngFor="let item of breadCrumbs">
         <a
             *tuiItem
@@ -8,13 +8,13 @@
             {{ item.title }}
         </a>
     </ng-container>
-</tui-breadcrumbs>
+</nav>
 <hr/>
 <ng-container  *ngIf="article$ | async as article; else loadingTemplate">
     <article *ngIf="article.content" markdown [data]="article.content" (error)="onMdxError()" (ready)="onMdxReady()">
     </article>
     <div *ngIf="article.error" class="error">
-        <tui-svg src="tuiIconAlertCircle"></tui-svg>
+        <p>TODO alert circle icon</p>
         <h3>Sorry, can't find this content right now</h3>
         <a tuiButton routerLink="/blog">Back to Blog Overview</a>
     </div>

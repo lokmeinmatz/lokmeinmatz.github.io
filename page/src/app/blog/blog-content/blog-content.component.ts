@@ -4,8 +4,6 @@ import { Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { ArticleRef, BlogService } from '../blog.service';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
-import { TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
-import { TuiBreadcrumbsModule } from '@taiga-ui/kit';
 import { Title } from '@angular/platform-browser';
 
 declare const Zone: any;
@@ -16,10 +14,7 @@ declare const Zone: any;
   imports: [
     CommonModule,
     MarkdownModule,
-    RouterModule,
-    TuiButtonModule,
-    TuiSvgModule,
-    TuiBreadcrumbsModule
+    RouterModule
   ],
   templateUrl: './blog-content.component.html',
   styleUrls: ['./blog-content.component.scss']

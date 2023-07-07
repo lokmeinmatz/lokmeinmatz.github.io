@@ -5,9 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { BlogCoverComponent } from './blog-cover/blog-cover.component';
 import { BlogService } from './blog.service';
-import { TuiActionModule, TuiPaginationModule } from '@taiga-ui/kit';
 import { MarkdownModule } from 'ngx-markdown';
-import { TuiSvgModule } from '@taiga-ui/core';
 
 const routes: Routes = [
   {
@@ -33,10 +31,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MarkdownModule.forRoot(),
-    HttpClientModule,
-    TuiActionModule,
-    TuiPaginationModule,
-    TuiSvgModule
+    HttpClientModule
   ]
 })
 export class BlogModule { }

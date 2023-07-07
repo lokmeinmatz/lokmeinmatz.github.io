@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
+import { Component, HostBinding, HostListener, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app-bar',
@@ -9,11 +9,33 @@ import { map } from 'rxjs';
 })
 export class AppBarComponent {
   
-  isBlogPage$ = this.activatedRoute.url.pipe(
-    map(u => u[0]?.path === 'blog')
-  );
+  get isBlogPage(): boolean {
+    return this.router.url === 'blog';
+  }
+
+  @HostBinding('class.is-home')
+  get isHome(): boolean {
+    return this.router.url === '/';
+  }
+
+  @HostBinding('style.--home-anim')
+  homeScrollState: number | undefined = undefined;
+
 
   constructor(
-    protected activatedRoute: ActivatedRoute
-  ) {}
+    protected router: Router,
+    @Inject(DOCUMENT)
+    protected document: Document 
+  ) {
+    this.updateScrollState();
+  }
+
+
+  @HostListener('window:scroll') 
+  updateScrollState() {
+    if (!this.isHome) return;
+    const scrollTop = this.document.scrollingElement?.scrollTop ?? 0;
+
+    this.homeScrollState = Math.min(1, scrollTop / (window.innerHeight / 3));
+  }
 }

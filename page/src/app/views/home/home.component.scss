@@ -1,4 +1,70 @@
-@import '@taiga-ui/core/styles/taiga-ui-local.scss';
+
+#landing-frame {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .center {
+        display: block;
+        width: 250px;
+        hr {
+            color: var(--primaryColor);
+        }
+
+        .prof-areas {
+            font-size: 26px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .prof-compsci {
+            letter-spacing: 2.7px;
+        }
+        
+        .prof-photography {
+            letter-spacing: 10px;
+
+        }
+    }
+
+    #arrows-down {
+        position: absolute;
+        bottom: 1em;
+        width: 100%;
+        display: grid;
+        justify-content: center;
+        @keyframes wave {
+            0% {
+                opacity: 100%;
+            }
+            50% {
+                opacity: 50%;
+            }
+            100% {
+                opacity: 100%;
+            }
+        }
+        & > svg {
+            display: block;
+            color: var(--secondaryColor-mid);
+            width: 100px;
+            height: 100px;
+        }
+        $anim-len: 2s;
+        #arrow-1, #arrow-2, #arrow-3 {
+            animation: wave $anim-len linear 0s infinite;
+        }
+
+        #arrow-2 {
+            animation-delay: calc($anim-len / 3);
+        }
+        #arrow-3 {
+            animation-delay: calc($anim-len / 3 * 2);
+        }
+    }
+}
 
 .blog-ref {
     width: 100%;
@@ -10,7 +76,7 @@
     height: 100px;
 
     & a {
-        @include hoverable-with-shadow();
+        // @include hoverable-with-shadow();
     }
 }
 
